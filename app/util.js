@@ -1,4 +1,3 @@
-const DOMAIN = 'https://api.herosdiary.com';
 let sessionToken = null; // Variable to store the authentication token
 
 // Constant for the interval time
@@ -474,3 +473,62 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+
+document.getElementById('registrationForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the form from submitting the default way
+
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const repeatPassword = document.getElementById('repeat_password').value;
+    const dob = document.getElementById('dob').value;
+    const gender = document.getElementById('gender').value;
+    const promo = document.getElementById('promo').value;
+    const nick = document.getElementById('nick').value;
+
+
+    // Validate password match
+    if (password !== repeatPassword) {
+        document.getElementById('passwordMessage').textContent = 'Passwords do not match';
+        document.getElementById('passwordMessage').style.color = 'red';
+        return;
+    }
+
+    const currentDatetime = new Date().toISOString();
+
+    const requestBody = {
+        email: email,
+        password: password,
+        dob: dob,
+        gender: gender,
+        promo: promo,	
+		name:nick,
+        string_timestamp: currentDatetime,
+		purpose:'personal'
+    };
+
+	fetch(`${DOMAIN}/create_new_user`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${sessionToken}`
+                },
+                body: JSON.stringify(requestBody)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('User registered successfully');
+            // Optionally, you can reset the form here
+            document.getElementById('registrationForm').reset();
+        } else {
+            alert('Error registering user: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
+
+
+
