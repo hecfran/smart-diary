@@ -198,21 +198,127 @@ function turnOnLocation(){
 }
 
 function startApp() {
-    fetch(`${DOMAIN}/start`)
-        .then(response => response.json())
+    const currentDatetime = new Date().toISOString();
+    const location = location_gps;
+
+    // Step 1: Call ${DOMAIN}/ and check the response
+    fetch(`${DOMAIN}/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            string_timestamp: currentDatetime,
+            location: location
+        })
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Service currently unavailable');
+            }
+            return response.json();
+        })
         .then(data => {
-            console.log(data); // Print the response to the console
-            if (data.rearrange) {
-                rearrange(data.rearrange);			
+            // Step 2: Check for access_token cookie
+            let accessToken = getCookie('access_token');
+            if (!accessToken || accessToken === '') {
+                // If the cookie does not exist or is an empty string, call ${DOMAIN}/start
+                return fetch(`${DOMAIN}/start`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        string_timestamp: currentDatetime,
+                        location: location
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data); // Print the response to the console
+                        if (data.rearrange) {
+                            rearrange(data.rearrange);
+                        }
+                    });
+            } else {
+                // If the cookie exists and is not an empty string, call ${DOMAIN}/login with the Authorization header
+                return fetch(`${DOMAIN}/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`
+                    },
+                    body: JSON.stringify({
+                        string_timestamp: currentDatetime,
+                        location: location
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        console.warn('Login failed, starting app instead');
+                        // Remove the cookie
+                        setCookie('access_token', '', 100); // This will delete the cookie
+                        // Call ${DOMAIN}/start
+                        return fetch(`${DOMAIN}/start`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                string_timestamp: currentDatetime,
+								auth_success: 1,
+                                location: location
+                            })
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log(data); // Print the response to the console
+                                if (data.rearrange) {
+                                    rearrange(data.rearrange);
+                                }
+                            });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data); // Print the response to the console
+                    if (data.rearrange) {
+                        rearrange(data.rearrange);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // If an error occurred during login, call ${DOMAIN}/start
+                    return fetch(`${DOMAIN}/start`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            string_timestamp: currentDatetime,
+                            location: location
+                        })
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data); // Print the response to the console
+                            if (data.rearrange) {
+                                rearrange(data.rearrange);
+                            }
+                        });
+                });
             }
         })
         .catch(error => {
             console.error('Error:', error);
+            alert('Service currently unavailable');
         });
 }
 
 // Call startApp on window load
 window.addEventListener('load', startApp);
+
+
 
 document.getElementById('unlock_diary_button').addEventListener('click', handleUnlockDiaryButtonClick);
 

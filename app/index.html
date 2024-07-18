@@ -13,7 +13,10 @@
     </header>
     <main class="container">
         <section id="hello_var">
-            <p id="header_message">Welcome X to Hero&apos;s diary.</p>
+            <div id="header_message_container">
+                <p id="header_message">Welcome X to Heros&apos; diary.</p>
+                <button type="button" id="logout_button">Log Out</button>
+            </div>
         </section>
         <section id="log_in">
             <div id="log_in-header" class="panel-header" onclick="togglePanel('log_in')">➕ Log In</div>
@@ -251,6 +254,24 @@
 
 
         </section>		
+
+
+		<section id="customReports">
+            <div id="customReports_header" class="panel-header" onclick="togglePanel('customReports')">➕ Custom Reports</div>
+            <div class="panel">
+                <div>
+                    <label for="monthSelector">I want an AI generated report from my diary for the last months</label>
+                    <input type="number" id="monthSelector" name="monthSelector" min="1" value="12">
+                </div>
+                <div>
+					<label > about </label>
+                    <button id="mentalHealth">Mental Health</button>
+                    <button id="physicalHealth">Physical Health</button>
+                    <button id="relationshipsHealth">Relationships Health</button>
+                </div>
+            </div>
+        
+		</section>
 		
 		<section id="settings">
 			<div id="settings_header" class="panel-header" onclick="togglePanel('settings')">➕ Settings</div>

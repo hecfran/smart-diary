@@ -1,3 +1,4 @@
+/* Existing styles */
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
@@ -38,7 +39,7 @@ main {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 1rem;
     margin: 0; /* Removed margin between header and panel */
-    width: 100%/*calc(100% - 2px); /* Match width with header and compensate for border */
+    width: 100%; /* Match width with header and compensate for border */
     box-sizing: border-box; /* Ensure padding is included in width */
     margin-bottom: 0; /* No margin between panel and next element */
 }
@@ -81,6 +82,25 @@ footer p {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+#header_message_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Justify content space between */
+}
+
+#logout_button {
+    padding: 10px 20px;
+    background-color: #808080; /* Grey color */
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#logout_button:hover {
+    background-color: #696969; /* Darker grey color on hover */
+}
+
+/* Other styles */
 .form-table, .content-table {
     width: 100%;
     border-collapse: collapse;

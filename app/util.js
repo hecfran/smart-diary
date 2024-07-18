@@ -532,3 +532,68 @@ document.getElementById('registrationForm').addEventListener('submit', function(
 
 
 
+document.getElementById('logout_button').addEventListener('click', function() {
+    setCookie('access_token', '', 100); // Remove the access token cookie
+    alert('You have been logged out.');
+    location.reload(); // Reload the page
+});
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const monthSelector = document.getElementById('monthSelector');
+    const mentalHealthButton = document.getElementById('mentalHealth');
+    const physicalHealthButton = document.getElementById('physicalHealth');
+    const relationshipsHealthButton = document.getElementById('relationshipsHealth');
+
+    if (mentalHealthButton) {
+        mentalHealthButton.addEventListener('click', () => generateReport(1, monthSelector.value));
+    }
+
+    if (physicalHealthButton) {
+        physicalHealthButton.addEventListener('click', () => generateReport(2, monthSelector.value));
+    }
+
+    if (relationshipsHealthButton) {
+        relationshipsHealthButton.addEventListener('click', () => generateReport(3, monthSelector.value));
+    }
+});
+
+function generateReport(templateId, nMonths) {
+    if (!sessionToken) {
+        console.error('No authentication token found.');
+        return;
+    }
+
+    const currentDatetime = new Date().toISOString();
+    const searchOptionsValues = getSearchOptionsValues();
+	
+    const body = {
+        location: location_gps,
+        string_timestamp: currentDatetime,
+        report_template: templateId,
+        n_months: nMonths,
+        searchOptions: searchOptionsValues,
+		
+		
+    };
+
+    fetch(`${DOMAIN}/custom_report`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${sessionToken}`
+        },
+        body: JSON.stringify(body)
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.rearrange) {
+                rearrange(data.rearrange);
+            }
+            console.log('Report generated:', data);
+        })
+        .catch(error => {
+            console.error('Error generating report:', error);
+        });
+}
