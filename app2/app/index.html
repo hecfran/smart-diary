@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero&apos;s diary</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="img/logo.png" type="image/png">
+</head>
+<body>
+    <header id="header">
+        <h1 id="main_title">Hero&apos;s diary <u> Beta</u> version</h1>
+    </header>
+    <main class="container">
+        <section id="hello_var">
+            <div id="header_message_container">
+                <p id="header_message">Welcome X to Heros&apos; diary.</p>
+                <button type="button" id="logout_button">Log Out</button>
+            </div>
+        </section>
+        <section id="log_in">
+            <div id="log_in-header" class="panel-header" onclick="togglePanel('log_in')">➕ Log In</div>
+            <div class="panel">
+                <table class="form-table">
+                    <tr id="login_email_row">
+                        <td class="label-cell"><label for="login_email">Email:</label></td>
+                        <td class="input-cell"><input type="email" id="login_email" name="login_email" required></td>
+                    </tr>
+                    <tr id="login_password_row">
+                        <td class="label-cell"><label for="login_password">Password:</label></td>
+                        <td class="input-cell"><input type="password" id="login_password" name="login_password" required></td>
+                    </tr>
+                    <tr id="login_buttons_row">
+                        <td class="label-cell"></td>
+                        <td class="input-cell">
+                            <button type="button" id="unlock_diary_button">Unlock Diary</button>
+                            <button type="button" id="forgot_password_button">I forgot my password</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+        <section id="register">
+            <div id="register-header" class="panel-header" onclick="togglePanel('register')">➕ Register</div>
+            <div class="panel">
+                <form id="registrationForm">
+                    <table class="form-table">
+                       <tr id="nick_row">
+                            <td class="label-cell"><label for="nick">Nick name:</label></td>
+                            <td class="input-cell"><input type="text" id="nick" name="nick"></td>
+                        </tr>					
+                        <tr id="gender_row">
+                            <td class="label-cell"><label for="gender">Gender:</label></td>
+                            <td class="input-cell">
+                                <select id="gender" name="gender">
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>								
+                            </td>
+                        </tr>
+ 						
+                        <tr id="dob_row">
+                            <td class="label-cell"><label for="dob">D.O.B: <span title="Date of Birth ?" style="cursor: help;">(i)</span></label></td>
+                            <td class="input-cell"><input type="date" id="dob" name="dob"></td>
+                        </tr>
+                        <tr id="promo_row">
+                            <td class="label-cell"><label for="promo">Promo code:</label></td>
+                            <td class="input-cell"><input type="text" id="promo" name="promo"></td>
+                        </tr>
+                        <tr id="register_email_row">
+                            <td class="label-cell"><label for="email">Email:</label></td>
+                            <td class="input-cell"><input type="email" id="email" name="email" required></td>
+                        </tr>
+                        <tr id="register_password_row">
+                            <td class="label-cell"><label for="password">Password:</label></td>
+                            <td class="input-cell"><input type="password" id="password" name="password" required></td>
+                        </tr>
+                        <tr id="repeat_password_row">
+                            <td class="label-cell"><label for="repeat_password">Repeat Password:</label></td>
+                            <td class="input-cell"><input type="password" id="repeat_password" name="repeat_password" required></td>
+                        </tr>
+                        <tr id="password_message_row">
+                            <td class="label-cell"></td>
+                            <td class="input-cell"><span id="passwordMessage"></span></td>
+                        </tr>
+                        <tr id="register_button_row">
+                            <td class="label-cell"></td>
+                            <td class="input-cell"><button type="submit">Register</button></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </section>
+        <section id="message_viewer">
+            <div id="message_viewer_header" class="panel-header" onclick="togglePanel('message_viewer')">➕ Message Viewer</div>
+            <div class="panel">
+                <div id="view_by_date_container">
+                    <label for="view_by_date">View by date:</label>
+                    <input type="date" id="view_by_date" name="view_by_date">
+                    <button type="button" id="find_button">Find</button>
+                </div>
+                <div class="scrollable" style="border: none; padding: 10px; height: 100%; overflow: hidden;">
+					<div id="message_scrollable" class="scrollable" style="border: none; padding: 10px;">
+                        <table id="message_table" class="content-table" border="1">
+                            <tr id="message_row_1">
+                                <td>Messages will be displayed here</td>
+                            </tr>
+                            <tr id="message_row_2">
+                                <td>Messages 2</td>
+                            </tr>
+                            <tr id="message_row_3">
+                                <td>Messages 3 This is a long message: <br> 
+                                This was a very productive week full that make my life pleasant, full of achievements such as completion of the project I was working on for a month <br>
+                                <a href="http://www.google.com/">Google Search Engine</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="search_options">
+            <div id="search_options_header" class="panel-header" onclick="togglePanel('search_options')">➕ Search Options</div>
+            <div class="panel">
+                <div id="search_options_container">
+                    <span class="search-options-info" title="This allows you to pick two days to search between them or just select an option from the list.">(i)</span>
+                    <select id="search_options_select" name="search_options_select">
+                        <option value="month">$ Month</option>
+                        <option value="year">$$ Year</option>
+                        <option value="all_times">$$$ All Times</option>
+                        <option value="custom" selected>Custom</option>
+                    </select>
+                    <label for="search_start_date">From:</label>
+                    <input type="date" id="search_start_date" name="search_start_date">
+                    <label for="search_end_date">To:</label>
+                    <input type="date" id="search_end_date" name="search_end_date">
+                </div>
+                <fieldset id="message_filter">
+                  <legend>Message filter:</legend>
+
+                  <div id="row_notes_container">
+                    <input type="checkbox" id="row-notes" name="row-notes" checked />
+                    <label for="row-notes">Row notes</label>
+                  </div>
+
+                  <div id="week_summaries_container">
+                    <input type="checkbox" id="week-summaries" name="week-summaries" checked />
+                    <label for="week-summaries">Week summaries</label>
+                  </div>
+
+                  <div id="month_summaries_container">
+                    <input type="checkbox" id="month-summaries" name="month-summaries" checked />
+                    <label for="month-summaries">Month summaries</label>
+                  </div>
+
+                  <div id="other_ai_reports_container">
+                    <input type="checkbox" id="other-ai-reports" name="other-ai-reports" checked />
+                    <label for="other-ai-reports">Other AI reports</label>
+                  </div>
+
+                  <div id="batches_rewards_container">
+                    <input type="checkbox" id="batches-rewards" name="batches-rewards" checked  />
+                    <label for="batches-rewards">Batches & rewards</label>
+                  </div>
+
+                  <div id="conversations_container">
+                    <input type="checkbox" id="conversations" name="conversations" checked />
+                    <label for="conversations">Conversations</label>
+                  </div>
+
+                  <div id="feedback_container">
+                    <input type="checkbox" id="feedback" name="feedback" checked />
+                    <label for="feedback">Feedback</label>
+                  </div>
+
+                  <div id="notifications_container">
+                    <input type="checkbox" id="notifications" name="notifications" checked />
+                    <label for="notifications">Notifications</label>
+                  </div>
+
+                  <div id="unread_notifications_container">
+                    <input type="checkbox" id="unread-notifications" name="unread-notifications" checked/>
+                    <label for="unread-notifications">Unread notifications</label>
+                  </div>
+                </fieldset>
+                <button type="button" id="refresh_view_button">Refresh View</button>
+            </div>
+        </section>
+        <section id="entry_box">
+            <div id="entry_box_header" class="panel-header" onclick="togglePanel('entry_box')">➕ Entry Box</div>
+            <div class="panel">
+                <p id="entry_box_question">How are you today?</p>
+
+                <textarea id="entry_box_textarea" rows="5" style="width: 100%; overflow-y: scroll;"></textarea>
+                <button type="button" id="entry_box_send_button">Send</button>
+                <button type="button" id="entry_box_scan_button">Scan or Photo</button>
+                <button type="button" id="entry_box_dictate_button">Dictate</button>
+            </div>
+        </section>
+        <section id="habit_goal_tracker">
+            <div id="habit_goal_tracker_header" class="panel-header" onclick="togglePanel('habit_goal_tracker')">➕ Habit Goal Tracker</div>
+            <div class="panel">
+				<fieldset id="Tracker_list">
+                  <legend>Daily tracker list</legend>
+				</fieldset>
+                <button type="button" id="daily_tracker">Submit</button>
+                
+                <button type="button" id="habit_goal_tracker_reset_button">Reset Defaults</button>
+            </div>
+        </section>
+		
+        <section id="edit_habit_goal_tracker">
+            <div id="edit_habit_goal_tracker_header" class="panel-header" onclick="togglePanel('edit_habit_goal_tracker')">➕ Edit Habit Goal Tracker</div>
+			<div id="edit_habit_goal_tracker_div" class="panel">
+				<table id="habit_goal_tracker_table" class="content-table" border="1">
+					<tr id="habit_goal_tracker_header_row">
+						<th>Key Term</th>
+						<th>Today</th>
+					</tr>
+					<tr id="habit_goal_tracker_row_1">
+						<td>Open Diary</td>
+						<td>Yes</td>
+					</tr>
+				</table>
+				
+				 <fieldset id="new_tracker_fieldset">
+					<legend>Add New Tracker, write a question to ask yourself</legend>
+					<form id="new_tracker_form">
+						<div>
+							<!--label for="tracker_question">Question:</label-->
+							<input type="text" id="tracker_question" name="tracker_question" required style="width: 100%;">
+						</div>
+						<div>
+							<label for="tracker_type">Type:</label>
+							<select id="tracker_type" name="tracker_type" required legend="aaaaaaaa">
+								<option value="bool">checkbox</option>							
+								<option value="text">text</option>
+							</select>
+
+							<label for="tracker_amount"> my goal is to do it:</label>
+							<input type="number" id="tracker_amount" name="tracker_amount" min="1" max="28" value="4" required>
+
+							<label for="tracker_frequency">times a:</label>
+							<select id="tracker_frequency" name="tracker_frequency" required>
+								<option value="week">week</option>
+								<option value="month">month</option>
+							</select>
+							<button type="submit" id="add_tracker_button">Add Tracker</button>
+						</div>
+					</form>
+				</fieldset>
+			</div>
+
+
+        </section>		
+
+
+		<section id="customReports">
+            <div id="customReports_header" class="panel-header" onclick="togglePanel('customReports')">➕ Custom Reports</div>
+            <div class="panel">
+                <div>
+                    <label for="monthSelector">I want an AI generated report from my diary for the last months</label>
+                    <input type="number" id="monthSelector" name="monthSelector" min="1" value="12">
+                </div>
+                <div>
+					<label > about </label>
+                    <button id="mentalHealth">Mental Health</button>
+                    <button id="physicalHealth">Physical Health</button>
+                    <button id="relationshipsHealth">Relationships Health</button>
+                </div>
+            </div>
+        
+		</section>
+		
+		<section id="settings">
+			<div id="settings_header" class="panel-header" onclick="togglePanel('settings')">➕ Settings</div>
+			<div class="panel">
+				<fieldset id="settings_checkbox_subpanel">
+					<legend>Checkbox Settings</legend>
+				</fieldset>
+				<div id="settings_combined_subpanel">
+					<table id="settings_combined_table" style="border: none;"></table>
+				</div>
+				<div id="settings_text_subpanel"></div>
+				<button type="button" id="settings_save_button">Save Changes</button>
+				<button type="button" id="settings_discard_button">Discard</button>
+				<button type="button" id="settings_reset_button">Reset Defaults</button>
+			</div>
+		</section>
+        
+		<section id="membership">
+            <div class="panel-header" onclick="togglePanel('membership')">➕ Membership</div>
+            <div class="panel">
+                <p>This is the membership panel. Here you can find different membership options.</p>
+                <div class="scrollable">
+                    <table id="membership_table" class="content-table" border="1">
+                        <tr>
+                            <td> <b>Freemium Option</b> <br> The Fremium Plan provides access to all current features, including daily journaling, habit tracking, and insightful reports. Soon, a Premium Subscription will be available, offering advance services and intelligence to your reports and overall experience. Feel free to propose a feature at the feedback section.</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <section id="about">
+            <div class="panel-header" onclick="togglePanel('about')">➕ About</div>
+				
+<div class="panel">
+  <h1>About Hero's Diary</h1>
+  <p>Welcome to Hero's Diary, your personal companion for capturing life's moments, setting goals, and reflecting on your journey. We are committed to safeguarding your privacy and providing a seamless user experience.</p>
+  
+  <h2>Privacy and Data Usage</h2>
+  <p>At Hero's Diary, your privacy is our priority. We adhere to strict data protection policies to ensure your information is secure and used responsibly. Here's how we handle your data:</p>
+  <ul>
+    <li><strong>Data Collection:</strong> We collect personal data to personalize your experience and improve our services. This includes information you provide directly and data collected automatically, such as usage patterns.</li>
+    <li><strong>Data Usage:</strong>
+      <ul>
+        <li><strong>Personalization and Analytics:</strong> We use your data to tailor the app to your preferences and to perform anonymized statistical analysis to enhance our services.</li>
+        <li><strong>Targeted Advertisements:</strong> For users on the freemium version, we may use your data to deliver relevant advertisements. This helps us keep the basic version free while providing value to our users.</li>
+        <li><strong>Anonymized Statistics:</strong> Your data may be aggregated and anonymized for statistical purposes, ensuring it cannot be traced back to you.</li>
+      </ul>
+    </li>
+    <li><strong>Privacy Assurance:</strong>
+      <ul>
+        <li><strong>Freemium Version:</strong> While using the freemium version, your data will never be disclosed to third parties without your consent. Advertisements are selected based on anonymized data.</li>
+        <li><strong>Premium Subscriptions:</strong> Some premium subscriptions offer complete privacy, meaning your data is neither shared nor used for advertisements or statistics. Please check your subscription details for specific privacy features.</li>
+      </ul>
+    </li>
+  </ul>
+  
+  <h2>Terms and Conditions</h2>
+  <p>By using Hero's Diary, you agree to our terms and conditions, which include but are not limited to:</p>
+  <ul>
+    <li><strong>User Responsibilities:</strong> You are responsible for maintaining the confidentiality of your account and password. Please notify us immediately of any unauthorized use of your account.</li>
+    <li><strong>Content Ownership:</strong> You retain ownership of the content you create. Hero's Diary does not claim any rights to your diary entries.</li>
+    <li><strong>Acceptable Use:</strong> You agree to use Hero's Diary for lawful purposes and refrain from posting any content that is illegal, offensive, or infringes on the rights of others.</li>
+    <li><strong>Subscription Terms:</strong> Our premium subscriptions are billed on a recurring basis. You can cancel at any time, and your subscription will remain active until the end of the current billing cycle.</li>
+    <li><strong>Modification and Termination:</strong> Hero's Diary reserves the right to modify or discontinue any aspect of the service at any time. We may also terminate your account for violations of our terms and conditions.</li>
+  </ul>
+  
+  <h2>Contact Us</h2>
+  <p>If you have any questions about our terms and conditions or need assistance with your account, please contact our support team in the "Feedback Customer Care" section of the app. We are here to help and ensure you have the best possible experience with Hero's Diary.</p>
+  
+  <p>Thank you for choosing Hero's Diary. We hope our app becomes an invaluable part of your daily life, helping you capture and reflect on your heroic journey.</p>
+</div>
+                
+            </div>
+        </section>
+        <section id="feedback_customer_care">
+            <div class="panel-header" onclick="togglePanel('feedback_customer_care')">➕ Feedback Customer Care</div>
+            <div class="panel">
+                <p>We are working to enhance your experience and give you better service and summaries for your life. Please let us know any suggestions you have for us or any problems you encounter. (Your suggestions will be visible to you in your notes).</p>
+				<textarea id="feedback_input" style="width: 100%; overflow-y: scroll;" rows="5"></textarea>
+                <button type="button" id="feedback_send_button">Send</button>
+            </div>
+        </section>
+        <section id="account">
+            <div class="panel-header" onclick="togglePanel('account')">➕ Account</div>
+            <div class="panel">
+                <button type="button" id="delete_account_button">Delete Account</button>
+                <button type="button" id="request_data_button">Request All My Personal Data</button>
+                <button type="button" id="import_diary_button">
+                    Import <span title="This allows you to select files from your diary in a different format and import it into Hero's diary." style="cursor: help;">(i)</span>
+                </button>
+            </div>
+        </section>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+    </main>
+    <footer>
+        <p>&copy; 2024 Hero&apos;s diary. All rights reserved.</p>
+    </footer>
+	<script src="domain.js"></script>	
+	<script src="util.js"></script>	
+    <script src="script.js"></script>
+    <script src="script2.js"></script>
+	
+    <!--script src="test.js"></script-->
+
+</body>
+</html>

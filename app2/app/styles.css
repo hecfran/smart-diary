@@ -1,0 +1,135 @@
+/* Existing styles */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background: url('img/background.jpg') repeat;
+    background-size: cover;
+    color: #333;
+}
+
+header {
+    background-color: rgba(76, 175, 80, 0.9); /* Slight transparency */
+    color: white;
+    padding: 1rem 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0;
+    background: transparent;
+    border: none;
+}
+
+main {
+    padding: 2rem 0;
+}
+
+.panel {
+    display: none; /* Initially hidden */
+    background: rgba(255, 255, 255, 0.9);
+    /* Removed border-radius to make it square */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    margin: 0; /* Removed margin between header and panel */
+    width: 100%; /* Match width with header and compensate for border */
+    box-sizing: border-box; /* Ensure padding is included in width */
+    margin-bottom: 0; /* No margin between panel and next element */
+}
+
+.panel-header {
+    background-color: rgba(76, 175, 80, 0.9);
+    color: white;
+    padding: 0.0rem; /* Thinner padding */
+    font-size: 0.8rem; /* Smaller letters */
+    cursor: pointer;
+    user-select: none;
+    /* Removed border-radius to make it square */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0; /* No margin between header and panel */
+    border: 1px solid transparent; /* To ensure equal width with panel */
+    box-sizing: border-box; /* Ensure padding is included in width */
+}
+
+footer {
+    background-color: rgba(76, 175, 80, 0.9); /* Slight transparency */
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+footer p {
+    margin: 0;
+}
+
+#hello_var p {
+    margin: 0;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    /* Removed border-radius to make it square */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#header_message_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Justify content space between */
+}
+
+#logout_button {
+    padding: 10px 20px;
+    background-color: #808080; /* Grey color */
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#logout_button:hover {
+    background-color: #696969; /* Darker grey color on hover */
+}
+
+/* Other styles */
+.form-table, .content-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.form-table td, .content-table td {
+    padding: 8px;
+    vertical-align: top;
+}
+
+.form-table .label-cell {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.form-table .input-cell {
+    text-align: left;
+}
+
+#passwordMessage {
+    padding-left: 8px;
+    color: red;
+}
+
+.scrollable {
+    max-height: 200px; /* Approx. 20 rows of text */
+    overflow-y: auto;
+}
+
+.search-options-info {
+    cursor: help;
+}
