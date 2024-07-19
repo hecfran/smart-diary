@@ -486,7 +486,6 @@ document.getElementById('registrationForm').addEventListener('submit', function(
     const promo = document.getElementById('promo').value;
     const nick = document.getElementById('nick').value;
 
-
     // Validate password match
     if (password !== repeatPassword) {
         document.getElementById('passwordMessage').textContent = 'Passwords do not match';
@@ -501,26 +500,27 @@ document.getElementById('registrationForm').addEventListener('submit', function(
         password: password,
         dob: dob,
         gender: gender,
-        promo: promo,	
-		name:nick,
+        promo: promo,    
+        name: nick,
         string_timestamp: currentDatetime,
-		purpose:'personal'
+        purpose: 'personal'
     };
 
-	fetch(`${DOMAIN}/create_new_user`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${sessionToken}`
-                },
-                body: JSON.stringify(requestBody)
+    fetch(`${DOMAIN}/create_new_user`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${sessionToken}`
+        },
+        body: JSON.stringify(requestBody)
     })
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            alert('User registered successfully');
+            alert('User created, check your email to verify your account'); // Update this line
             // Optionally, you can reset the form here
             document.getElementById('registrationForm').reset();
+			togglePanel('registrationForm');
         } else {
             alert('Error registering user: ' + data.message);
         }
@@ -529,8 +529,6 @@ document.getElementById('registrationForm').addEventListener('submit', function(
         console.error('Error:', error);
     });
 });
-
-
 
 document.getElementById('logout_button').addEventListener('click', function() {
     setCookie('access_token', '', 100); // Remove the access token cookie
