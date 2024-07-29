@@ -595,3 +595,82 @@ function generateReport(templateId, nMonths) {
             console.error('Error generating report:', error);
         });
 }
+
+
+
+// Function to save settings
+function saveSettings() {
+    // Extract the current settings
+    const updatedSettings = regenerateSettings();
+
+    // Check if sessionToken is available
+    if (!sessionToken) {
+        console.error('No authentication token found.');
+        alert('You need to be logged in to save settings.');
+        return;
+    }
+
+    // Send the updated settings to the server
+    fetch(`${DOMAIN}/update_settings`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${sessionToken}`
+        },
+        body: JSON.stringify(updatedSettings)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Settings saved successfully.');
+        } else {
+            alert('Error saving settings: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error saving settings.');
+    });
+}
+
+// Add an event listener to the "Save Changes" button
+document.getElementById('settings_save_button').addEventListener('click', saveSettings);
+
+
+
+
+
+
+
+
+
+// Function to show the "not implemented yet" alert
+function showNotImplementedAlert() {
+    alert("Function not implemented yet, please be patient we are working on it");
+}
+
+// Add event listeners to buttons without assigned functions
+document.addEventListener('DOMContentLoaded', () => {
+    const buttons = {
+        'forgot_password_button': showNotImplementedAlert,
+        
+        
+        
+        'entry_box_scan_button': showNotImplementedAlert,
+        'entry_box_dictate_button': showNotImplementedAlert,
+        'habit_goal_tracker_reset_button': showNotImplementedAlert,
+        'settings_discard_button': showNotImplementedAlert,
+        'settings_reset_button': showNotImplementedAlert,
+        'delete_account_button': showNotImplementedAlert,
+        'request_data_button': showNotImplementedAlert,
+        'import_diary_button': showNotImplementedAlert,
+        'refresh_view_button': showNotImplementedAlert,
+    };
+
+    Object.keys(buttons).forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.addEventListener('click', buttons[id]);
+        }
+    });
+});
