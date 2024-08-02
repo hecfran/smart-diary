@@ -686,3 +686,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const textarea = document.getElementById('entry_box_textarea');
+    const maxRows = 20;
+
+    textarea.addEventListener('input', function () {
+        // Reset the rows to the minimum (5) to recalculate the scroll height
+        textarea.rows = 5;
+        // Calculate the number of rows needed to fit the content
+        const rows = Math.min(maxRows, textarea.scrollHeight / 24); // Assuming line height is 24px
+        textarea.rows = rows;
+    });
+});

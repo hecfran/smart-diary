@@ -3,7 +3,6 @@
 
 
 
-
 function rearrange(jsonObject) {
     if (jsonObject["panels"]) {
         for (const panelId in jsonObject["panels"]) {
@@ -26,9 +25,11 @@ function rearrange(jsonObject) {
             }
         }
     }
+
     if (jsonObject["settings"]) {
-		updatePanelSettings(jsonObject["settings"])
-	}
+        updatePanelSettings(jsonObject["settings"]);
+    }
+
     if (jsonObject["re-name"]) {
         for (const elementId in jsonObject["re-name"]) {
             const newText = jsonObject["re-name"][elementId];
@@ -60,6 +61,11 @@ function rearrange(jsonObject) {
             const newCell = newRow.insertCell(0);
             newCell.innerHTML = message.replace(/\n/g, '<br>');
             newRow.id = `message_row_${index + 1}`;
+
+            if (jsonObject["show_messages_types"] && jsonObject["show_messages_types"][index]) {
+                const messageType = jsonObject["show_messages_types"][index];
+                newRow.classList.add(`message-type-${messageType.toLowerCase().replace(/ /g, '-')}`);
+            }
         });
         messageTable.rows[messageTable.rows.length - 1].scrollIntoView({ behavior: "smooth" });
     }
@@ -99,59 +105,57 @@ function rearrange(jsonObject) {
         }
     }
 
-    // New functionality for Trackers
-// New functionality for Trackers
-if (jsonObject["Trackers"]) {
-    const trackerTable = document.getElementById("habit_goal_tracker_table");
+    if (jsonObject["Trackers"]) {
+        const trackerTable = document.getElementById("habit_goal_tracker_table");
 
-    // Clear existing table
-    while (trackerTable.rows.length > 0) {
-        trackerTable.deleteRow(0);
-    }
+        // Clear existing table
+        while (trackerTable.rows.length > 0) {
+            trackerTable.deleteRow(0);
+        }
 
-    // Add new headers
-    const headerRow = trackerTable.insertRow();
-    const headers = ["Description", "Type", "Times", "Frequency", "Actions"];
-    headers.forEach(headerText => {
-        const header = document.createElement("th");
-        header.innerText = headerText;
-        headerRow.appendChild(header);
-    });
-
-    // Add rows for each tracker
-    jsonObject["Trackers"].forEach((tracker, index) => {
-        const row = trackerTable.insertRow();
-        row.id = `tracker_row_${index}`;
-
-        const keywordsCell = row.insertCell();
-        keywordsCell.innerText = tracker.Keywords;
-        keywordsCell.title = tracker.LongDescription;
-
-        const typeCell = row.insertCell();
-        typeCell.innerText = tracker.Type.replace("bool", "yes/no");
-
-        const goalNumberCell = row.insertCell();
-        goalNumberCell.innerText = tracker.GoalNumber;
-
-        const goalFrequencyCell = row.insertCell();
-        goalFrequencyCell.innerText = tracker.GoalFrequency;
-
-        const actionsCell = row.insertCell();
-        ["up", "down", "remove"].forEach(action => {
-            const button = document.createElement("button");
-            button.innerText = action.charAt(0).toUpperCase() + action.slice(1);
-            button.addEventListener("click", () => handleTrackerAction(action, row.id));
-            actionsCell.appendChild(button);
+        // Add new headers
+        const headerRow = trackerTable.insertRow();
+        const headers = ["Description", "Type", "Times", "Frequency", "Actions"];
+        headers.forEach(headerText => {
+            const header = document.createElement("th");
+            header.innerText = headerText;
+            headerRow.appendChild(header);
         });
 
-        // Assign id=0 to the first button of the second row after the header
-        if (index === 0) {
-            const firstButton = actionsCell.querySelector("button");
-            firstButton.id = 0;
-            firstButton.addEventListener("click", () => handleTrackerAction(firstButton.innerText.toLowerCase(), firstButton.id));
-        }
-    });
-}
+        // Add rows for each tracker
+        jsonObject["Trackers"].forEach((tracker, index) => {
+            const row = trackerTable.insertRow();
+            row.id = `tracker_row_${index}`;
+
+            const keywordsCell = row.insertCell();
+            keywordsCell.innerText = tracker.Keywords;
+            keywordsCell.title = tracker.LongDescription;
+
+            const typeCell = row.insertCell();
+            typeCell.innerText = tracker.Type.replace("bool", "yes/no");
+
+            const goalNumberCell = row.insertCell();
+            goalNumberCell.innerText = tracker.GoalNumber;
+
+            const goalFrequencyCell = row.insertCell();
+            goalFrequencyCell.innerText = tracker.GoalFrequency;
+
+            const actionsCell = row.insertCell();
+            ["up", "down", "remove"].forEach(action => {
+                const button = document.createElement("button");
+                button.innerText = action.charAt(0).toUpperCase() + action.slice(1);
+                button.addEventListener("click", () => handleTrackerAction(action, row.id));
+                actionsCell.appendChild(button);
+            });
+
+            // Assign id=0 to the first button of the second row after the header
+            if (index === 0) {
+                const firstButton = actionsCell.querySelector("button");
+                firstButton.id = 0;
+                firstButton.addEventListener("click", () => handleTrackerAction(firstButton.innerText.toLowerCase(), firstButton.id));
+            }
+        });
+    }
 }
 
 function handleUnlockDiaryButtonClick() {
@@ -245,6 +249,7 @@ function startApp() {
                         }
                     });
             } else {
+				sessionToken = accessToken; // this is why the page was not working after auto-login 1-aug-2024
                 // If the cookie exists and is not an empty string, call ${DOMAIN}/login with the Authorization header
                 return fetch(`${DOMAIN}/login`, {
                     method: 'POST',

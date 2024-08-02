@@ -144,33 +144,34 @@
 
         
 		<section id="message_viewer">
-            <div id="message_viewer_header" class="panel-header" onclick="togglePanel('message_viewer')">➕ Message Viewer</div>
-            <div class="panel">
-                <div id="view_by_date_container">
-                    <label for="view_by_date">View by date:</label>
-                    <input type="date" id="view_by_date" name="view_by_date">
-                    <button type="button" id="find_button">Find</button>
-                </div>
-                <div class="scrollable" style="border: none; padding: 10px; height: 100%; overflow: hidden;">
-					<div id="message_scrollable" class="scrollable" style="border: none; padding: 10px;">
-                        <table id="message_table" class="content-table" border="1">
-                            <tr id="message_row_1">
-                                <td>Messages will be displayed here</td>
-                            </tr>
-                            <tr id="message_row_2">
-                                <td>Messages 2</td>
-                            </tr>
-                            <tr id="message_row_3">
-                                <td>Messages 3 This is a long message: <br> 
-                                This was a very productive week full that make my life pleasant, full of achievements such as completion of the project I was working on for a month <br>
-                                <a href="http://www.google.com/">Google Search Engine</a>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </section>
+			<div id="message_viewer_header" class="panel-header" onclick="togglePanel('message_viewer')">➕ Message Viewer</div>
+			<div class="panel">
+				<div id="view_by_date_container">
+					<label for="view_by_date">View by date:</label>
+					<input type="date" id="view_by_date" name="view_by_date">
+					<button type="button" id="find_button">Find</button>
+				</div>
+				<div class="scrollable" style="padding: 0; margin: 0; height: 100%; overflow: hidden;">
+					<div id="message_scrollable" class="scrollable" style="padding: 0; margin: 0;">
+						<table id="message_table" class="content-table" border="1">
+							<tr id="message_row_1">
+								<td>Messages will be displayed here</td>
+							</tr>
+							<tr id="message_row_2">
+								<td>Messages 2</td>
+							</tr>
+							<tr id="message_row_3">
+								<td>Messages 3 This is a long message: <br> 
+								This was a very productive week full that make my life pleasant, full of achievements such as completion of the project I was working on for a month <br>
+								<a href="http://www.google.com/">Google Search Engine</a>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</section>
+
         <section id="search_options">
             <div id="search_options_header" class="panel-header" onclick="togglePanel('search_options')">➕ Search Options</div>
             <div class="panel">
