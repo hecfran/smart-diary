@@ -688,15 +688,52 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-document.addEventListener('DOMContentLoaded', function () {
-    const textarea = document.getElementById('entry_box_textarea');
-    const maxRows = 20;
 
-    textarea.addEventListener('input', function () {
-        // Reset the rows to the minimum (5) to recalculate the scroll height
-        textarea.rows = 5;
-        // Calculate the number of rows needed to fit the content
-        const rows = Math.min(maxRows, textarea.scrollHeight / 24); // Assuming line height is 24px
-        textarea.rows = rows;
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  const textarea = document.getElementById('entry_box_textarea');
+  const minRows = 5;
+  const maxRows = 20;
+
+  function getTextWidth(text, font) {
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    context.font = font;
+    return context.measureText(text).width;
+  }
+
+  function calculateCharsPerLine(textarea) {
+    const font = window.getComputedStyle(textarea).font;
+    const width = textarea.offsetWidth;
+    const avgCharWidth = getTextWidth('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', font) / 52;
+    return Math.floor(width / avgCharWidth);
+  }
+
+  function countLines(text, charsPerLine) {
+    const lines = text.split('\n');
+    let totalLines = 0;
+    lines.forEach(line => {
+      const lineCount = Math.ceil(line.length / charsPerLine);
+      totalLines += lineCount;
     });
+    return totalLines;
+  }
+
+  function adjustTextareaHeight() {
+    const text = textarea.value;
+    const charsPerLine = calculateCharsPerLine(textarea);
+    const lines = countLines(text, charsPerLine);
+    textarea.rows = Math.max(minRows, Math.min(maxRows, lines));
+  }
+
+  textarea.addEventListener('input', adjustTextareaHeight);
+  window.addEventListener('resize', adjustTextareaHeight);
+
+  // Initial adjustment
+  adjustTextareaHeight();
 });
