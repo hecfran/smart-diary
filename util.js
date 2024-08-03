@@ -737,3 +737,17 @@ document.addEventListener('DOMContentLoaded', function () {
   // Initial adjustment
   adjustTextareaHeight();
 });
+
+
+// Function to hide the footer and save cookie on acceptance
+function acceptCookies() {
+	document.getElementById('footerSection').style.display = 'none'; // Hide the footer
+	document.cookie = "cookiesAccepted=true; expires=Sat, 03 Aug 2030 12:00:00 UTC; path=/"; // Set a cookie indicating acceptance
+}
+
+// Check if the user has previously accepted the use of cookies
+if (document.cookie.replace(/(?:(?:^|.*;\s*)cookiesAccepted\s*\=\s*([^;]*).*$)|^.*$/, "\$1") !== 'true') {
+	document.getElementById('footerSection').style.display = 'block'; // Display the footer if the cookie is not set
+} else {
+	document.getElementById('footerSection').style.display = 'none'; // Hide the footer if the cookie is set
+}
