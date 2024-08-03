@@ -213,4 +213,25 @@ footer p {
     background-color: #f5f5f5; /* Example color */
 }
 
-/* Add more styles as needed */
+
+
+#cookie-consent-banner {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	background-color: #f8f9fa;
+	color: #000;
+	border-top: 1px solid #e7e7e7;
+	text-align: center;
+	padding: 15px;
+	box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+	z-index: 1000;
+}
+#cookie-consent-banner button {
+	margin-left: 10px;
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	cursor: pointer;
+}
