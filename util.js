@@ -5,7 +5,7 @@ const CHANGE_INTERVAL = 10000;
 
 let promptIndex = 0;
 let promptInterval;
-let share_location = true;
+let share_location = false;
 let location_gps = {
     latitude: 0.0,
     longitude: 0.0
@@ -140,141 +140,6 @@ function getSearchOptionsValues() {
     return valuesDictionary;
 }
 
-function updatePanelSettings(settings) {
-    // Function to create a checkbox element
-    function createCheckbox(key, value) {
-        const label = document.createElement('label');
-        label.htmlFor = key;
-        label.innerText = value.localized_name;
-        label.title = value.help;
-
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.id = key;
-        checkbox.checked = value.value;
-
-        const div = document.createElement('div');
-        div.appendChild(checkbox);
-        div.appendChild(label);
-
-        return div;
-    }
-
-    // Function to create a list selection element
-    function createListSelection(key, value) {
-        const label = document.createElement('label');
-        label.htmlFor = key;
-        label.innerText = value.localized_name;
-        label.title = value.help;
-
-        const select = document.createElement('select');
-        select.id = key;
-
-        value.options.forEach(option => {
-            const opt = document.createElement('option');
-            opt.value = option;
-            opt.innerText = option;
-            select.appendChild(opt);
-        });
-
-        select.value = value.value;
-
-        const div = document.createElement('div');
-        div.appendChild(label);
-        div.appendChild(select);
-
-        return div;
-    }
-
-    // Function to create a numeric input element
-    function createNumericInput(key, value) {
-        const label = document.createElement('label');
-        label.htmlFor = key;
-        label.innerText = value.localized_name;
-        label.title = value.help;
-
-        const input = document.createElement('input');
-        input.type = value.float_value ? 'number' : 'text';
-        input.id = key;
-        input.value = value.value;
-        if (value.min !== undefined) input.min = value.min;
-        if (value.max !== undefined) input.max = value.max;
-        if (value.float_value) input.step = "0.01";
-
-        const div = document.createElement('div');
-        div.appendChild(label);
-        div.appendChild(input);
-
-        return div;
-    }
-
-    // Function to create a text input element
-    function createTextInput(key, value) {
-        const label = document.createElement('label');
-        label.htmlFor = key;
-        label.innerText = value.localized_name;
-        label.title = value.help;
-
-        const input = document.createElement(value.paragraph ? 'textarea' : 'input');
-        input.id = key;
-        input.value = value.value;
-        input.rows = value.paragraph ? 5 : 1;
-        input.style.width = '100%';
-
-        const div = document.createElement('div');
-        div.appendChild(label);
-        div.appendChild(document.createElement('br'));
-        div.appendChild(input);
-
-        return div;
-    }
-
-    // Create an array of all items with their order and type
-    const allItems = [];
-    for (const [type, values] of Object.entries(settings)) {
-        for (const [key, value] of Object.entries(values)) {
-            allItems.push({ key, value, type });
-        }
-    }
-
-    // Sort all items by their order
-    allItems.sort((a, b) => a.value.order - b.value.order);
-
-    // Clear all panels
-    const binaryPanel = document.getElementById('settings_checkbox_subpanel');
-    binaryPanel.innerHTML = '<legend>Checkbox Settings</legend>';
-    const combinedPanel = document.getElementById('settings_combined_table');
-    combinedPanel.innerHTML = '';
-    const textPanel = document.getElementById('settings_text_subpanel');
-    textPanel.innerHTML = '';
-
-    // Add items to their respective panels in order
-    allItems.forEach(({ key, value, type }) => {
-        let element;
-        switch (type) {
-            case 'binary':
-                element = createCheckbox(key, value);
-                binaryPanel.appendChild(element);
-                break;
-            case 'list':
-                element = createListSelection(key, value);
-                const listRow = combinedPanel.insertRow();
-                listRow.insertCell().appendChild(element.querySelector('label'));
-                listRow.insertCell().appendChild(element.querySelector('select'));
-                break;
-            case 'numeric':
-                element = createNumericInput(key, value);
-                const numericRow = combinedPanel.insertRow();
-                numericRow.insertCell().appendChild(element.querySelector('label'));
-                numericRow.insertCell().appendChild(element.querySelector('input'));
-                break;
-            case 'text':
-                element = createTextInput(key, value);
-                textPanel.appendChild(element);
-                break;
-        }
-    });
-}
 
 function regenerateSettings() {
     const settings = {
@@ -294,10 +159,19 @@ function regenerateSettings() {
         settings.list[select.id] = select.value;
     });
 
-    // Process numeric settings (input type number)
-    document.querySelectorAll('#settings_combined_table input[type="number"]').forEach(input => {
-        settings.numeric[input.id] = parseFloat(input.value);
-    });
+	// Process numeric settings (input type number and text)
+	document.querySelectorAll('#settings_combined_table input[type="number"], #settings_combined_table input[type="text"]').forEach(input => {
+		const value = input.type === 'number' ? parseFloat(input.value) : input.value;
+		console.log(`Processing input: ${input.id}, value: ${input.value}, parsed value: ${value}`);
+		if (input.type === 'number' && !isNaN(value)) {
+			settings.numeric[input.id] = value;
+		} else {
+			settings.numeric[input.id] = value;
+		}
+	});
+
+	// Print all collected values
+	console.log('Collected numeric settings:', settings.numeric);
 
     // Process text settings (input type text and textarea)
     document.querySelectorAll('#settings_text_subpanel input, #settings_text_subpanel textarea').forEach(input => {

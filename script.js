@@ -2,6 +2,66 @@
 // Update location immediately
 
 
+function show_messages(jsonObject){
+    const messageTable = document.getElementById("message_table");
+    while (messageTable.rows.length > 0) {
+        messageTable.deleteRow(0);
+    }
+    jsonObject["show_messages"].forEach((message, index) => {
+        const newRow = messageTable.insertRow();
+        const newCell = newRow.insertCell(0);
+        const messageText = message.replace(/\n/g, '<br>');
+        newCell.innerHTML = `
+            <div>
+                <p id="message_text_${index}">${messageText}</p>
+                <button id="read_button_${index}">Read</button>
+                <button id="share_button_${index}">Share</button>
+            </div>
+        `;
+        newRow.id = `message_row_${index + 1}`;
+
+        if (jsonObject["show_messages_types"] && jsonObject["show_messages_types"][index]) {
+            const messageType = jsonObject["show_messages_types"][index];
+            newRow.classList.add(`message-type-${messageType.toLowerCase().replace(/ /g, '-')}`);
+        }
+
+        // Add event listener for read button
+        const readButton = document.getElementById(`read_button_${index}`);
+        readButton.addEventListener('click', () => {
+            const messageElement = document.getElementById(`message_text_${index}`);
+            const message = messageElement.textContent;
+            // Use system TTS to read the message
+            // Remove HTML marks from the message
+            const cleanMessage = message.replace(/<[^>]*>/g, '');
+            // Use TTS API to read the message
+            // For example, using the Web Speech API:
+            const speech = new SpeechSynthesisUtterance(cleanMessage);
+            speech.lang = 'en-US';
+            window.speechSynthesis.speak(speech);
+        });
+
+        // Add event listener for share button
+        const shareButton = document.getElementById(`share_button_${index}`);
+        shareButton.addEventListener('click', () => {
+            const messageElement = document.getElementById(`message_text_${index}`);
+            const message = messageElement.textContent;
+            // Use Web Share API to share the message
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Shared Message',
+                    text: message,
+                })
+                .then(() => console.log('Shared successfully'))
+                .catch((error) => console.error('Error sharing:', error));
+            } else {
+                console.log('Web Share API not supported');
+            }
+        });
+    });
+    messageTable.rows[messageTable.rows.length - 1].scrollIntoView({ behavior: "smooth" });
+}
+
+
 
 function rearrange(jsonObject) {
     if (jsonObject["panels"]) {
@@ -52,7 +112,9 @@ function rearrange(jsonObject) {
     }
 
     if (jsonObject["show_messages"]) {
-        const messageTable = document.getElementById("message_table");
+		show_messages(jsonObject)
+	}
+        /*const messageTable = document.getElementById("message_table");
         while (messageTable.rows.length > 0) {
             messageTable.deleteRow(0);
         }
@@ -69,6 +131,7 @@ function rearrange(jsonObject) {
         });
         messageTable.rows[messageTable.rows.length - 1].scrollIntoView({ behavior: "smooth" });
     }
+	*/
 
     if (jsonObject["habit_checks"]) {
         const trackerList = document.getElementById("Tracker_list");
@@ -157,6 +220,182 @@ function rearrange(jsonObject) {
         });
     }
 }
+function updatePanelSettings(settings) {
+    // Function to create a checkbox element
+    function createCheckbox(key, value) {
+        const label = document.createElement('label');
+        label.htmlFor = key;
+        label.innerText = value.localized_name;
+        label.title = value.help;
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = key;
+        checkbox.checked = value.value;
+
+        const div = document.createElement('div');
+        div.appendChild(checkbox);
+        div.appendChild(label);
+
+        return div;
+    }
+
+    // Function to create a list selection element
+    function createListSelection(key, value) {
+        const label = document.createElement('label');
+        label.htmlFor = key;
+        label.innerText = value.localized_name;
+        label.title = value.help;
+
+        const select = document.createElement('select');
+        select.id = key;
+
+        value.options.forEach(option => {
+            const opt = document.createElement('option');
+            opt.value = option;
+            opt.innerText = option;
+            select.appendChild(opt);
+        });
+
+        select.value = value.value;
+
+        const resetButton = document.createElement('button');
+        resetButton.innerText = 'Reset';
+        resetButton.onclick = () => {
+            select.value = value.default;
+        };
+
+        const div = document.createElement('div');
+        div.appendChild(label);
+        div.appendChild(select);
+        div.appendChild(select);
+        div.appendChild(resetButton);
+
+        return div;
+    }
+
+    // Function to create a numeric input element
+    function createNumericInput(key, value) {
+        const label = document.createElement('label');
+        label.htmlFor = key;
+        label.innerText = value.localized_name;
+        label.title = value.help;
+
+        const input = document.createElement('input');
+        input.type = value.float_value ? 'number' : 'text';
+        input.id = key;
+        input.value = value.value;
+        if (value.min !== undefined) input.min = value.min;
+        if (value.max !== undefined) input.max = value.max;
+        if (value.float_value) input.step = "0.01";
+
+        const resetButton = document.createElement('button');
+        resetButton.innerText = 'Reset';
+        resetButton.onclick = () => {
+            input.value = value.default;
+        };
+
+        const div = document.createElement('div');
+        div.appendChild(label);
+        div.appendChild(input);
+        div.appendChild(resetButton);
+
+        return div;
+    }
+
+    // Function to create a text input element
+    function createTextInput(key, value) {
+        const label = document.createElement('label');
+        label.htmlFor = key;
+        label.innerText = value.localized_name;
+        label.title = value.help;
+
+        const input = document.createElement(value.paragraph ? 'textarea' : 'input');
+        input.id = key;
+        input.value = value.value;
+        input.rows = value.paragraph ? 5 : 1;
+        input.style.width = '100%';
+
+        const resetButton = document.createElement('button');
+        resetButton.innerText = 'Reset';
+        resetButton.onclick = () => {
+            input.value = value.default;
+        };
+
+        const div = document.createElement('div');
+        div.appendChild(label);
+        div.appendChild(document.createElement('br'));
+        div.appendChild(input);
+        div.appendChild(resetButton);
+
+        return div;
+    }
+
+    // Create an array of all items with their order and type
+    const allItems = [];
+    for (const [type, values] of Object.entries(settings)) {
+        for (const [key, value] of Object.entries(values)) {
+            allItems.push({ key, value, type });
+        }
+    }
+
+    // Sort all items by their order
+    allItems.sort((a, b) => a.value.order - b.value.order);
+
+    // Clear all panels
+    const binaryPanel = document.getElementById('settings_checkbox_subpanel');
+    binaryPanel.innerHTML = '<legend>Checkbox Settings</legend>';
+    const combinedPanel = document.getElementById('settings_combined_table');
+    combinedPanel.innerHTML = '';
+    const textPanel = document.getElementById('settings_text_subpanel');
+    textPanel.innerHTML = '';
+
+    // Add items to their respective panels in order
+    allItems.forEach(({ key, value, type }) => {
+        let element;
+        switch (type) {
+            case 'binary':
+                element = createCheckbox(key, value);
+                binaryPanel.appendChild(element);
+                break;
+            case 'list':
+                element = createListSelection(key, value);
+                const listRow = combinedPanel.insertRow();
+                listRow.insertCell().appendChild(element.querySelector('label'));
+                listRow.insertCell().appendChild(element.querySelector('select'));
+                listRow.insertCell().appendChild(element.querySelector('button'));
+                break;
+            case 'numeric':
+                element = createNumericInput(key, value);
+                const numericRow = combinedPanel.insertRow();
+                numericRow.insertCell().appendChild(element.querySelector('label'));
+                numericRow.insertCell().appendChild(element.querySelector('input'));
+                numericRow.insertCell().appendChild(element.querySelector('button'));
+                break;
+            case 'text':
+                element = createTextInput(key, value);
+                textPanel.appendChild(element);
+                break;
+        }
+
+        // Print value on console if setting is 'save_location'
+        if (key === 'save_location') {
+            console.log(`Save location: ${value.value}`);
+			share_location = false;
+
+        }
+    });
+
+    // Debugging: Print all numeric inputs
+    console.log('Numeric inputs in the DOM:');
+    document.querySelectorAll('#settings_combined_table input[type="number"]').forEach(input => {
+        console.log(`Input ID: ${input.id}, Value: ${input.value}`);
+    });
+}
+
+
+
+
 
 function handleUnlockDiaryButtonClick() {
     const email = document.getElementById('login_email').value;
