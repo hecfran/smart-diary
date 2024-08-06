@@ -139,7 +139,7 @@ function rearrange(jsonObject) {
             trackerList.removeChild(trackerList.firstChild);
         }
         jsonObject["habit_checks"].forEach((habit, index) => {
-            const checkboxId = `habit_check_${index}`;
+            const checkboxId = `habit_check_${habit.id}`;
             const checkbox = document.createElement("input");
             checkbox.type = "checkbox";
             checkbox.id = checkboxId;
