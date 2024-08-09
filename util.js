@@ -507,11 +507,15 @@ function saveSettings() {
     })
     .then(response => response.json())
     .then(data => {
-        if (data.success) {
-            alert('Settings saved successfully.');
-        } else {
-            alert('Error saving settings: ' + data.message);
+		print(data.success)
+		if (data.rearrange) {
+			rearrange(data.rearrange);
         }
+        //if (data.success) {
+        //    alert('Settings saved successfully.');
+        //} else {
+        //    alert('Error saving settings: ' + data.message);
+        //}
     })
     .catch(error => {
         console.error('Error:', error);
@@ -625,3 +629,4 @@ if (document.cookie.replace(/(?:(?:^|.*;\s*)cookiesAccepted\s*\=\s*([^;]*).*$)|^
 } else {
 	document.getElementById('footerSection').style.display = 'none'; // Hide the footer if the cookie is set
 }
+

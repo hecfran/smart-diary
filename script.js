@@ -7,6 +7,7 @@ function show_messages(jsonObject){
     while (messageTable.rows.length > 0) {
         messageTable.deleteRow(0);
     }
+		
     jsonObject["show_messages"].forEach((message, index) => {
         const newRow = messageTable.insertRow();
         const newCell = newRow.insertCell(0);
@@ -84,6 +85,12 @@ function rearrange(jsonObject) {
                 }
             }
         }
+    }
+	if (jsonObject["hide_elements"]) {
+        hideElementsByIds(jsonObject["hide_elements"]);
+    }
+	if (jsonObject["show_elements"]) {
+        showElementsByIds(jsonObject["show_elements"]);
     }
 
     if (jsonObject["settings"]) {
@@ -692,3 +699,30 @@ document.getElementById('new_tracker_form').addEventListener('submit', function(
     document.getElementById('new_tracker_form').reset();
 });
 
+function hideElementsByIds(ids) {
+    ids.forEach(id => {
+        let element = document.getElementById(id);
+        if (element) {
+            element.style.display = 'none';
+        }
+    });
+}
+
+function showElementsByIds(ids) {
+    ids.forEach(id => {
+        let element = document.getElementById(id);
+        if (element) {
+            element.style.display = '';
+        }
+    });
+}
+
+
+function attentionElementsByIds(ids) {
+    ids.forEach(id => {
+        let element = document.getElementById(id);
+        if (element) {
+		    element.focus();
+        }
+    });
+}
