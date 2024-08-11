@@ -92,7 +92,16 @@ function rearrange(jsonObject) {
 	if (jsonObject["show_elements"]) {
         showElementsByIds(jsonObject["show_elements"]);
     }
+	if (jsonObject["text_habit"]) {
+        //document.getElementById('habit_question').value = jsonObject["text_habit"];
+		appendKeywordsToHabitQuestion(jsonObject["text_habit"])
+    }
 
+
+	if (jsonObject["attention_elements"]) {
+        attentionElementsByIds(jsonObject["show_elements"]);
+    }
+	
     if (jsonObject["settings"]) {
         updatePanelSettings(jsonObject["settings"]);
     }
@@ -227,6 +236,24 @@ function rearrange(jsonObject) {
         });
     }
 }
+
+
+function appendKeywordsToHabitQuestion(dictList) {
+    // Step 1: Retrieve the current value of the habit_question element
+    let habitQuestionElement = document.getElementById('habit_question');
+    let currentValue = habitQuestionElement.value;
+
+    // Step 2: Extract the 'Keywords' values from the list of dictionaries
+    let keywords = dictList.map(dict => dict['Keywords']).join(', ');
+
+    // Step 3: Append these values to the habit_question value, separated by commas
+    let newValue = currentValue ? `${currentValue}, ${keywords}` : keywords;
+
+    // Step 4: Update the habit_question element with the new value
+    habitQuestionElement.innerText  =  newValue;
+}
+
+
 function updatePanelSettings(settings) {
     // Function to create a checkbox element
     function createCheckbox(key, value) {
@@ -430,7 +457,7 @@ function handleUnlockDiaryButtonClick() {
     .then(data => {
         if (data.access_token) {
             sessionToken = data.access_token;
-            setCookie('access_token', data.access_token, 7);
+            //setCookie('access_token', data.access_token, 7); // problem seeing other people diary. 
         }
         if (data.rearrange) {
             rearrange(data.rearrange);
