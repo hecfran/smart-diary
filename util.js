@@ -640,92 +640,110 @@ if (document.cookie.replace(/(?:(?:^|.*;\s*)cookiesAccepted\s*\=\s*([^;]*).*$)|^
 	document.getElementById('footerSection').style.display = 'none'; // Hide the footer if the cookie is set
 }
 
+
 function captureAndUploadImage() {
     console.log("captureAndUploadImage function called");
 
-    // Check if the browser supports the getUserMedia API
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
-				
-			const rearrangeConfig = {
-				'panels': {'video': 2}
-			};
-			rearrange(rearrangeConfig);
-				
-            // Show the modal and expand the scanner panel
-            expandScannerPanel();
-            var modal = document.getElementById("videoModal");
-            var videoElement = document.getElementById("videoElement");
-            var captureButton = document.getElementById("captureButton");
-            var closeButton = document.querySelector(".close-button");
+    // Function to handle the video stream
+    function handleStream(stream) {
+        const rearrangeConfig = {
+            'panels': {'video': 2}
+        };
+        rearrange(rearrangeConfig);
 
-            videoElement.srcObject = stream;
-            modal.style.display = "block";
+        // Show the modal and expand the scanner panel
+        expandScannerPanel();
+        var modal = document.getElementById("videoModal");
+        var videoElement = document.getElementById("videoElement");
+        var captureButton = document.getElementById("captureButton");
+        var closeButton = document.querySelector(".close-button");
 
-            closeButton.onclick = function() {
+        videoElement.srcObject = stream;
+        modal.style.display = "block";
+
+        closeButton.onclick = function() {
+            modal.style.display = "none";
+            stream.getTracks().forEach(track => track.stop());
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
                 modal.style.display = "none";
                 stream.getTracks().forEach(track => track.stop());
             }
+        }
 
-            window.onclick = function(event) {
-                if (event.target == modal) {
+        captureButton.onclick = function() {
+            const rearrangeConfig = {
+                'panels': {'video': 0}
+            };
+            rearrange(rearrangeConfig);
+
+            // Create a canvas element to capture the image
+            var canvas = document.createElement('canvas');
+            var context = canvas.getContext('2d');
+
+            // Set canvas dimensions to match video
+            canvas.width = videoElement.videoWidth;
+            canvas.height = videoElement.videoHeight;
+
+            // Draw the video frame to the canvas
+            context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+            // Stop the video stream
+            stream.getTracks().forEach(track => track.stop());
+
+            // Convert the canvas to a blob
+            canvas.toBlob(function(blob) {
+                // Create a FormData object to send the image
+                var formData = new FormData();
+                formData.append('file', blob, 'photo.jpg');
+
+                // Send the image to the server
+                fetch(`${DOMAIN}/upload`, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    if (data.extracted_text) {
+                        document.getElementById('entry_box_textarea').value += data.extracted_text;
+                    }
                     modal.style.display = "none";
-                    stream.getTracks().forEach(track => track.stop());
-                }
-            }
+                    collapseScannerPanel();  // Collapse the scanner panel after the image is processed
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            }, 'image/jpeg');
+        }
+    }
 
-            captureButton.onclick = function() {
-				
-				const rearrangeConfig = {
-					'panels': {'video': 0}
-				};
-				rearrange(rearrangeConfig);
-                // Create a canvas element to capture the image
-                var canvas = document.createElement('canvas');
-                var context = canvas.getContext('2d');
+    // Function to handle errors
+    function handleError(error) {
+        console.error('Error accessing the camera:', error);
+        if (error.name === 'OverconstrainedError') {
+            // Fallback to default camera if back camera is not available
+            navigator.mediaDevices.getUserMedia({ video: true }).then(handleStream).catch(function(error) {
+                console.error('Error accessing the default camera:', error);
+                alert('Unable to access the camera.');
+            });
+        } else {
+            alert('Unable to access the camera.');
+        }
+    }
 
-                // Set canvas dimensions to match video
-                canvas.width = videoElement.videoWidth;
-                canvas.height = videoElement.videoHeight;
-
-                // Draw the video frame to the canvas
-                context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-
-                // Stop the video stream
-                stream.getTracks().forEach(track => track.stop());
-
-                // Convert the canvas to a blob
-                canvas.toBlob(function(blob) {
-                    // Create a FormData object to send the image
-                    var formData = new FormData();
-                    formData.append('file', blob, 'photo.jpg');
-
-                    // Send the image to the server
-                    fetch(`${DOMAIN}/upload`, {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('Success:', data);
-                        if (data.extracted_text) {
-                            document.getElementById('entry_box_textarea').value += data.extracted_text;
-                        }
-                        modal.style.display = "none";
-                        collapseScannerPanel();  // Collapse the scanner panel after the image is processed
-                    })
-                    .catch((error) => {
-                        console.error('Error:', error);
-                    });
-                }, 'image/jpeg');
-            }
-        }).catch(function(error) {
-            console.error('Error accessing the camera:', error);
-        });
+    // Check if the browser supports the getUserMedia API
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: "environment" } } })
+            .then(handleStream)
+            .catch(handleError);
     } else {
         alert('getUserMedia API is not supported in your browser.');
     }
 }
+
 
 function expandScannerPanel() {
     const panelSection = document.getElementById('video');
