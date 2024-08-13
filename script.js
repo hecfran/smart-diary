@@ -99,7 +99,7 @@ function rearrange(jsonObject) {
 
 
 	if (jsonObject["attention_elements"]) {
-        attentionElementsByIds(jsonObject["show_elements"]);
+        attentionElementsByIds(jsonObject["attention_elements"]);
     }
 	
     if (jsonObject["settings"]) {
@@ -495,7 +495,7 @@ function startApp() {
     })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Service currently unavailable');
+                throw new Error('Service currently unavailable for manainance, please try again later');
             }
             return response.json();
         })
@@ -753,3 +753,42 @@ function attentionElementsByIds(ids) {
         }
     });
 }
+
+
+
+// initialize weg page without making an api call
+document.addEventListener('DOMContentLoaded', function() {
+    const rearrangeConfig = {
+        'panels': {
+            'video': 0,
+            'message_viewer': 0,
+            'search_options': 0,
+            'entry_box': 2,
+            'habit_goal_tracker': 0,
+            'settings': 0,
+            'membership': 0,
+            'about': 0,
+            'feedback_customer_care': 0,
+            'account': 0,
+            'edit_habit_goal_tracker': 0,
+            'customReports': 0,
+            'log_in': 2,
+            'register': 1,
+            'introduction': 2
+        },
+        'hide_elements': [
+            'entry_box_question',
+            'entry_box_send_button',
+            'entry_box_dictate_button',
+            'logout_button'
+        ],
+        'attention_elements': [
+            'introduction',
+            'login_email_row',
+            'entry_box_textarea'
+        ]
+    };
+
+    // Call the rearrange function with the specified configuration
+    rearrange(rearrangeConfig);
+});

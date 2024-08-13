@@ -19,6 +19,22 @@
             </div>
         </section>
 		
+		    <!-- Modal for Video Capture -->
+    <section id="video">
+		<div id="video-header" class="panel-header" onclick="togglePanel('video')">➕ Scaner</div>
+		<div class="panel">				
+			<div id="videoModal" class="modal">
+				<div class="modal-content">
+					<span class="close-button">&times;</span>
+					<video id="videoElement" autoplay></video>
+					<button id="captureButton">Capture</button>
+					<button id="cancelcaptureButton">Cancell</button>					
+				</div>
+			</div>
+		</div>
+			
+		</section>
+			
         <section id="log_in">
             <div id="log_in-header" class="panel-header" onclick="togglePanel('log_in')">➕ Log In</div>
             <div class="panel">

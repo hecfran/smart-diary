@@ -1,5 +1,16 @@
 let sessionToken = null; // Variable to store the authentication token
 
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM fully loaded and parsed");
+
+    document.getElementById('entry_box_scan_button').addEventListener('click', captureAndUploadImage);
+    console.log("Event listener added to entry_box_scan_button");
+});
+
+
 // Constant for the interval time
 const CHANGE_INTERVAL = 10000;
 
@@ -546,7 +557,6 @@ document.addEventListener('DOMContentLoaded', () => {
         
         
         
-        'entry_box_scan_button': showNotImplementedAlert,
         'entry_box_dictate_button': showNotImplementedAlert,
         'habit_goal_tracker_reset_button': showNotImplementedAlert,
         'settings_discard_button': showNotImplementedAlert,
@@ -629,4 +639,117 @@ if (document.cookie.replace(/(?:(?:^|.*;\s*)cookiesAccepted\s*\=\s*([^;]*).*$)|^
 } else {
 	document.getElementById('footerSection').style.display = 'none'; // Hide the footer if the cookie is set
 }
+
+function captureAndUploadImage() {
+    console.log("captureAndUploadImage function called");
+
+    // Check if the browser supports the getUserMedia API
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+				
+			const rearrangeConfig = {
+				'panels': {'video': 2}
+			};
+			rearrange(rearrangeConfig);
+				
+            // Show the modal and expand the scanner panel
+            expandScannerPanel();
+            var modal = document.getElementById("videoModal");
+            var videoElement = document.getElementById("videoElement");
+            var captureButton = document.getElementById("captureButton");
+            var closeButton = document.querySelector(".close-button");
+
+            videoElement.srcObject = stream;
+            modal.style.display = "block";
+
+            closeButton.onclick = function() {
+                modal.style.display = "none";
+                stream.getTracks().forEach(track => track.stop());
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                    stream.getTracks().forEach(track => track.stop());
+                }
+            }
+
+            captureButton.onclick = function() {
+				
+				const rearrangeConfig = {
+					'panels': {'video': 0}
+				};
+				rearrange(rearrangeConfig);
+                // Create a canvas element to capture the image
+                var canvas = document.createElement('canvas');
+                var context = canvas.getContext('2d');
+
+                // Set canvas dimensions to match video
+                canvas.width = videoElement.videoWidth;
+                canvas.height = videoElement.videoHeight;
+
+                // Draw the video frame to the canvas
+                context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+                // Stop the video stream
+                stream.getTracks().forEach(track => track.stop());
+
+                // Convert the canvas to a blob
+                canvas.toBlob(function(blob) {
+                    // Create a FormData object to send the image
+                    var formData = new FormData();
+                    formData.append('file', blob, 'photo.jpg');
+
+                    // Send the image to the server
+                    fetch(`${DOMAIN}/upload`, {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Success:', data);
+                        if (data.extracted_text) {
+                            document.getElementById('entry_box_textarea').value += data.extracted_text;
+                        }
+                        modal.style.display = "none";
+                        collapseScannerPanel();  // Collapse the scanner panel after the image is processed
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+                }, 'image/jpeg');
+            }
+        }).catch(function(error) {
+            console.error('Error accessing the camera:', error);
+        });
+    } else {
+        alert('getUserMedia API is not supported in your browser.');
+    }
+}
+
+function expandScannerPanel() {
+    const panelSection = document.getElementById('video');
+    const panel = panelSection.querySelector('.panel');
+    const header = panelSection.querySelector('.panel-header');
+
+    panel.style.display = 'block';
+    header.textContent = header.textContent.replace('➕', '➖');
+}
+
+function collapseScannerPanel() {
+    const panelSection = document.getElementById('video');
+    const panel = panelSection.querySelector('.panel');
+    const header = panelSection.querySelector('.panel-header');
+
+    panel.style.display = 'none';
+    header.textContent = header.textContent.replace('➖', '➕');
+}
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM fully loaded and parsed");
+
+    document.getElementById('entry_box_scan_button').addEventListener('click', captureAndUploadImage);
+    console.log("Event listener added to entry_box_scan_button");
+});
 
