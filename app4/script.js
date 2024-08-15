@@ -69,11 +69,6 @@ function rearrange(jsonObject) {
         for (const panelId in jsonObject["panels"]) {
             const panelState = jsonObject["panels"][panelId];
             const panelSection = document.getElementById(panelId);
-		
-		if (!panelSection) {
-            console.warn(`Panel with ID ${panelId} not found.`);
-            continue; // Move to the next panel
-        }
 
             if (panelState === 0) {
                 panelSection.style.display = 'none';
@@ -784,6 +779,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'hide_elements': [
             'entry_box_question',
             'entry_box_send_button',
+            'entry_box_dictate_button',
             'logout_button'
         ],
         'attention_elements': [

@@ -18,69 +18,29 @@
                 <button type="button" id="logout_button">Log Out</button>
             </div>
         </section>
-		<section id="voice-ocr">
-				<div id="voiceModal" class="modal">
-					<div class="modal-content">
-						<span class="close-button">&times;</span>
-						<div class="voice-recorder-container">
-							<p>Recording... Speak now!</p>
-							<button id="stopRecordingButton">Stop Recording</button>
-						</div>
-						<audio id="audioPlayback" controls></audio>
-					</div>
-				</div>
-				<div id="videoModal" class="modal">
-					<div class="modal-content">
-						<span class="close-button">&times;</span>
-						<div class="video-container">
-							<video id="videoElement" autoplay></video>
-						</div>
-						<button id="captureButton">Capture</button>
-						<button id="cancelcaptureButton">Cancell</button>					
-						
-					</div>
-				</div>
-		</section>
 		
-		<!-- Modal for Voice Recording ->
-		<section id="voice-recording">
-			<div id="voice-recording-header" class="panel-header" onclick="togglePanel('voice-recording')">➕ Voice Recording</div>
-			<div class="panel">
-				<div id="voiceModal" class="modal">
-					<div class="modal-content">
-						<span class="close-button">&times;</span>
-						<div class="voice-recorder-container">
-							<p>Recording... Speak now!</p>
-							<button id="stopRecordingButton">Stop Recording</button>
-						</div>
-						<audio id="audioPlayback" controls></audio>
+		    <!-- Modal for Video Capture -->
+    <section id="video">
+		<div id="video-header" class="panel-header" onclick="togglePanel('video')">➕ Scaner</div>
+		<div class="panel">				
+				
+			<div id="videoModal" class="modal">
+				<div class="modal-content">
+					<span class="close-button">&times;</span>
+					<div class="video-container">
+						<video id="videoElement" autoplay></video>
 					</div>
+					<button id="captureButton">Capture</button>
+					<button id="cancelcaptureButton">Cancell</button>					
+					
 				</div>
 			</div>
-		</section>
-
-		<!-- Modal for Video Capture ->
-		<section id="video">
-			<div id="video-header" class="panel-header" onclick="togglePanel('video')">➕ Scaner</div>
-			<div class="panel">				
-					
-				<div id="videoModal" class="modal">
-					<div class="modal-content">
-						<span class="close-button">&times;</span>
-						<div class="video-container">
-							<video id="videoElement" autoplay></video>
-						</div>
-						<button id="captureButton">Capture</button>
-						<button id="cancelcaptureButton">Cancell</button>					
-						
-					</div>
-				</div>
-					
-					
-			</div>
+				
+				
+		</div>
 			
 		</section>
-		-->	
+			
         <section id="log_in">
             <div id="log_in-header" class="panel-header" onclick="togglePanel('log_in')">➕ Log In</div>
             <div class="panel">
@@ -262,7 +222,7 @@
 
                 <textarea id="entry_box_textarea" rows="5" style="width: 100%; overflow-y: scroll; " placeholder="Write your journal entry here"></textarea>
                 <button type="button" id="entry_box_send_button">Send</button>
-                <button type="button" id="entry_box_scan_button">Scan writing</button>
+                <button type="button" id="entry_box_scan_button">Scan or Photo</button>
                 <button type="button" id="entry_box_dictate_button">Dictate</button>
             </div>
         </section>

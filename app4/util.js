@@ -550,99 +550,14 @@ function showNotImplementedAlert() {
     alert("Function not implemented yet, please be patient we are working on it");
 }
 
-function voice_recording() {
-    // Access the modal and its elements
-    const modal = document.getElementById("voiceModal");
-    const stopRecordingButton = document.getElementById("stopRecordingButton");
-    const closeButton = document.querySelector(".close-button");
-    const audioPlayback = document.getElementById("audioPlayback");
-
-    let mediaRecorder;
-    let audioChunks = [];
-
-    // Function to handle the stream
-    function handleStream(stream) {
-        mediaRecorder = new MediaRecorder(stream);
-
-        mediaRecorder.ondataavailable = event => {
-            audioChunks.push(event.data);
-        };
-
-        mediaRecorder.onstop = async () => {
-            const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-            const audioUrl = URL.createObjectURL(audioBlob);
-            audioPlayback.src = audioUrl;
-
-            // Send the recorded audio to the server
-            const formData = new FormData();
-            formData.append('file', audioBlob, 'voiceRecording.wav');
-
-            try {
-                const response = await fetch(`${DOMAIN}/upload_voice`, {
-                    method: 'POST',
-                    body: formData
-                });
-                const data = await response.json();
-                // Handle the response from the server
-                console.log('Success:', data);
-                if (data.extracted_text) {
-                    document.getElementById('entry_box_textarea').value += data.extracted_text;
-                }
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        };
-
-        mediaRecorder.start();
-
-        modal.style.display = "block";
-    }
-
-    // Function to handle errors
-    function handleError(error) {
-        console.error('Error accessing the microphone:', error);
-        alert('Unable to access the microphone.');
-    }
-
-    // Start the recording process
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({ audio: true })
-            .then(handleStream)
-            .catch(handleError);
-    } else {
-        alert('getUserMedia API is not supported in your browser.');
-    }
-
-    // Event listener for stop recording button
-    stopRecordingButton.onclick = () => {
-        mediaRecorder.stop();
-        modal.style.display = "none";
-    };
-
-    // Event listener for close button
-    closeButton.onclick = () => {
-        modal.style.display = "none";
-    };
-
-    // Event listener for clicking outside the modal
-    window.onclick = event => {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    };
-}
-
-
-
 // Add event listeners to buttons without assigned functions
-
-
-
 document.addEventListener('DOMContentLoaded', () => {
     const buttons = {
         'forgot_password_button': showNotImplementedAlert,
-
-        'entry_box_dictate_button': voice_recording,
+        
+        
+        
+        'entry_box_dictate_button': showNotImplementedAlert,
         'habit_goal_tracker_reset_button': showNotImplementedAlert,
         'settings_discard_button': showNotImplementedAlert,
         'settings_reset_button': showNotImplementedAlert,
