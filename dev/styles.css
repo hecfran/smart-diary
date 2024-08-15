@@ -1,0 +1,342 @@
+/* Existing styles */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background: url('img/background.jpg') repeat;
+    background-size: cover;
+    color: #333;
+}
+
+header {
+    background-color: rgba(76, 175, 80, 0.9); /* Slight transparency */
+    color: white;
+    padding: 1rem 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0;
+    background: transparent;
+    border: none;
+}
+
+main {
+    padding: 2rem 0;
+}
+
+.panel {
+    display: none; /* Initially hidden */
+    background: rgba(255, 255, 255, 0.9);
+    /* Removed border-radius to make it square */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    margin: 0; /* Removed margin between header and panel */
+    width: 100%; /* Match width with header and compensate for border */
+    box-sizing: border-box; /* Ensure padding is included in width */
+    margin-bottom: 0; /* No margin between panel and next element */
+}
+
+.panel-header {
+    background-color: rgba(76, 175, 80, 0.9);
+    color: white;
+    padding: 0.0rem; /* Thinner padding */
+    font-size: 0.8rem; /* Smaller letters */
+    cursor: pointer;
+    user-select: none;
+    /* Removed border-radius to make it square */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0; /* No margin between header and panel */
+    border: 1px solid transparent; /* To ensure equal width with panel */
+    box-sizing: border-box; /* Ensure padding is included in width */
+}
+
+footer {
+    background-color: rgba(76, 175, 80, 0.9); /* Slight transparency */
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+footer p {
+    margin: 0;
+}
+
+#hello_var p {
+    margin: 0;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    /* Removed border-radius to make it square */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#header_message_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Justify content space between */
+}
+
+#logout_button {
+    padding: 10px 20px;
+    background-color: #808080; /* Grey color */
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#logout_button:hover {
+    background-color: #696969; /* Darker grey color on hover */
+}
+
+/* Other styles */
+.form-table, .content-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.form-table td, .content-table td {
+    padding: 8px;
+    vertical-align: top;
+}
+
+.form-table .label-cell {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.form-table .input-cell {
+    text-align: left;
+}
+
+#passwordMessage {
+    padding-left: 8px;
+    color: red;
+}
+
+.scrollable {
+    max-height: 200px; /* Approx. 20 rows of text */
+    overflow-y: auto;
+}
+
+.search-options-info {
+    cursor: help;
+}
+
+/* New styles for the YouTube video and form-container */
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    width: 100%; /* Take the whole width of the panel */
+    overflow: hidden;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.form-container {
+    width: 100%; /* Take the whole width of the panel */
+    margin: 1.5rem 0;
+}
+
+.form-container iframe {
+    width: 100%;
+    height: 500px; /* Adjust the height as needed */
+    border: none;
+}
+
+#message_table {
+  margin: 0; /* This removes the default margins */
+  width: 100%; /* This ensures the table takes up the full width of its container */
+}
+
+/* Apply these styles to the container of the table */
+#message_scrollable {
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
+}
+
+#message_table {
+    margin: 0; /* This removes the default margins */
+    width: 100%; /* This ensures the table takes up the full width of its container */
+}
+
+/* Styles for message types */
+.message-type-user-text {
+    background-color: transparent;
+}
+
+.message-type-ai-summary-week,
+.message-type-ai-summary-month {
+    background-color: #ffe6e6; /* Slightly pink color */
+}
+
+/* Add other message types if needed */
+.message-type-user-habit-tracker {
+    background-color: #f0f0f0; /* Example color */
+}
+
+.message-type-smart-watch {
+    background-color: #e0f7fa; /* Example color */
+}
+
+.message-type-feedback {
+    background-color: #e8f5e9; /* Example color */
+}
+
+.message-type-conversation {
+    background-color: #f3e5f5; /* Example color */
+}
+
+.message-type-gamified {
+    background-color: #fff3e0; /* Example color */
+}
+
+.message-type-other {
+    background-color: #f5f5f5; /* Example color */
+}
+
+
+
+#cookie-consent-banner {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	background-color: #f8f9fa;
+	color: #000;
+	border-top: 1px solid #e7e7e7;
+	text-align: center;
+	padding: 15px;
+	box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+	z-index: 1000;
+}
+#cookie-consent-banner button {
+	margin-left: 10px;
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	cursor: pointer;
+}
+
+
+/* Modal styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+    position: relative;
+    margin: auto;
+    padding: 0;
+    width: 80%; /* Could be more or less, depending on screen size */
+    max-width: 600px; /* Maximum width */
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden; /* Hide overflow */
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Video container styles */
+.video-container {
+    width: 100%; /* Fit the width of the container */
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    position: relative;
+    overflow: hidden; /* Hide overflow */
+}
+
+/* Video element styles */
+#videoElement {
+    position: absolute;
+    top: -25%; /* Move up by 25% */
+    left: -25%; /* Move left by 25% */
+    width: 150%; /* Increase width by 50% */
+    height: 150%; /* Increase height by 50% */
+}
+
+
+/* Modal styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+    position: relative;
+    margin: auto;
+    padding: 0;
+    width: 80%; /* Could be more or less, depending on screen size */
+    max-width: 600px; /* Maximum width */
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden; /* Hide overflow */
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.voice-recorder-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
