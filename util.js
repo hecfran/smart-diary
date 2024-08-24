@@ -518,7 +518,7 @@ function saveSettings() {
     })
     .then(response => response.json())
     .then(data => {
-		print(data.success)
+		//console.log(data.success); 
 		if (data.rearrange) {
 			rearrange(data.rearrange);
         }
@@ -551,17 +551,19 @@ function showNotImplementedAlert() {
 }
 
 function voice_recording() {
-    // Access the modal and its elements
     const modal = document.getElementById("voiceModal");
     const stopRecordingButton = document.getElementById("stopRecordingButton");
     const closeButton = document.querySelector(".close-button");
     const audioPlayback = document.getElementById("audioPlayback");
-
-	rearrange({'panels': {'voice-recording': 2}})
+	
+	
+    rearrange({'panels': {'voice-recording': 2}});
+	playBeep();
     let mediaRecorder;
     let audioChunks = [];
-
-    // Function to handle the stream
+    let startTime;
+    let timerInterval;
+	let timerElement;
     function handleStream(stream) {
         mediaRecorder = new MediaRecorder(stream);
 
@@ -570,25 +572,28 @@ function voice_recording() {
         };
 
         mediaRecorder.onstop = async () => {
+            clearInterval(timerInterval);
+            playBeep(); // Play beep sound when recording stops
             const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
             const audioUrl = URL.createObjectURL(audioBlob);
             audioPlayback.src = audioUrl;
 
-            // Send the recorded audio to the server
             const formData = new FormData();
             formData.append('file', audioBlob, 'voiceRecording.wav');
 
             try {				
-				rearrange({'panels': {'voice-recording': 0}})
+                rearrange({'panels': {'voice-recording': 0}});
                 const response = await fetch(`${DOMAIN}/upload_voice`, {
                     method: 'POST',
                     body: formData
                 });
                 const data = await response.json();
-                // Handle the response from the server
                 console.log('Success:', data);
                 if (data.extracted_text) {
                     document.getElementById('entry_box_textarea').value += data.extracted_text;
+					if (timerElement) {
+						document.querySelector(".voice-recorder-container").removeChild(timerElement);
+					}
                 }
             } catch (error) {
                 console.error('Error:', error);
@@ -596,17 +601,36 @@ function voice_recording() {
         };
 
         mediaRecorder.start();
-
+        startTime = Date.now();
+        updateTimer();
         modal.style.display = "block";
+
+        setTimeout(() => {
+            if (mediaRecorder.state === "recording") {
+                mediaRecorder.stop();
+                modal.style.display = "none";
+            }
+        }, 5 * 60 * 1000); // 5 minutes
     }
 
-    // Function to handle errors
+    function updateTimer() {
+        timerElement = document.createElement("div");
+        timerElement.id = "recordingTimer";
+        document.querySelector(".voice-recorder-container").appendChild(timerElement);
+		
+        timerInterval = setInterval(() => {
+            const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+            const minutes = Math.floor(elapsedSeconds / 60);
+            const seconds = elapsedSeconds % 60;
+            timerElement.textContent = `Recording: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        }, 1000);
+    }
+
     function handleError(error) {
         console.error('Error accessing the microphone:', error);
         alert('Unable to access the microphone.');
     }
 
-    // Start the recording process
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         navigator.mediaDevices.getUserMedia({ audio: true })
             .then(handleStream)
@@ -615,36 +639,59 @@ function voice_recording() {
         alert('getUserMedia API is not supported in your browser.');
     }
 
-    // Event listener for stop recording button
     stopRecordingButton.onclick = () => {
-        mediaRecorder.stop();
+        if (mediaRecorder.state === "recording") {
+            mediaRecorder.stop();
+        }
         modal.style.display = "none";
+        clearInterval(timerInterval);
     };
 
-    // Event listener for close button
     closeButton.onclick = () => {
         modal.style.display = "none";
+        clearInterval(timerInterval);
     };
 
-    // Event listener for clicking outside the modal
     window.onclick = event => {
         if (event.target == modal) {
             modal.style.display = "none";
+            clearInterval(timerInterval);
         }
     };
 }
 
+function playBeep() {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    oscillator.type = 'sine'; // You can change this to 'square', 'sawtooth', 'triangle'
+    oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // 440Hz is the frequency for the beep
+    oscillator.connect(audioContext.destination);
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime + 0.5); // Beep duration
+}
 
+
+
+function closeCapturePanel() {
+    const videoModal = document.getElementById('videoModal');
+    videoModal.style.display = 'none';
+    
+    // Stop the video stream
+    const videoElement = document.getElementById('videoElement');
+    const stream = videoElement.srcObject;
+    if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+    }
+}
 
 // Add event listeners to buttons without assigned functions
-
-
-
 document.addEventListener('DOMContentLoaded', () => {
+	//initialize asociated functions
     const buttons = {
-        'forgot_password_button': showNotImplementedAlert,
-
-        'entry_box_dictate_button': voice_recording,
+		'cancelcaptureButton':closeCapturePanel,
+		'entry_box_dictate_button': voice_recording,
+		//initialized non implemented functions
+        'forgot_password_button': showNotImplementedAlert,      
         'habit_goal_tracker_reset_button': showNotImplementedAlert,
         'settings_discard_button': showNotImplementedAlert,
         'settings_reset_button': showNotImplementedAlert,
@@ -660,6 +707,14 @@ document.addEventListener('DOMContentLoaded', () => {
             element.addEventListener('click', buttons[id]);
         }
     });
+	
+	//initialize date picker for viewer
+	const dateInput = document.getElementById('view_by_date');
+	const today = new Date();
+	const year = today.getFullYear();
+	const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+	const day = String(today.getDate()).padStart(2, '0');
+	dateInput.value = `${year}-${month}-${day}`;
 });
 
 

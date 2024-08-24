@@ -25,12 +25,12 @@
 			<div class="panel">
 				<div id="voiceModal" class="modal">
 					<div class="modal-content">
-						<span class="close-button">&times;</span>
+						<!-- <span class="close-button">&times;</span> -->
 						<div class="voice-recorder-container">
 							<p>Recording... Speak now!</p>
 							<button id="stopRecordingButton">Stop Recording</button>
 						</div>
-						<audio id="audioPlayback" controls></audio>
+						<audio id="audioPlayback" controls style="display: none;"></audio>
 					</div>
 				</div>
 			</div>
@@ -43,7 +43,7 @@
 					
 				<div id="videoModal" class="modal">
 					<div class="modal-content">
-						<span class="close-button">&times;</span>
+						<!--<span class="close-button">&times;</span>-->	
 						<div class="video-container">
 							<video id="videoElement" autoplay></video>
 						</div>
@@ -235,9 +235,8 @@
         <section id="entry_box">
             <div id="entry_box_header" class="panel-header" onclick="togglePanel('entry_box')">➕ Entry Box</div>
             <div class="panel">
-                <p id="entry_box_question">How are you today?</p>
-
-                <textarea id="entry_box_textarea" rows="5" style="width: 100%; overflow-y: scroll; " placeholder="Write your journal entry here"></textarea>
+				<span id="entry_box_question" style="width: 100%; display: block;">How are you today?</span>
+                <textarea id="entry_box_textarea" rows="5" style="width: 100%; overflow-y: scroll; " placeholder="Dear diary, guess what happend today... write your diary entry here"></textarea>
                 <button type="button" id="entry_box_send_button">Send</button>
                 <button type="button" id="entry_box_scan_button">Scan writing</button>
                 <button type="button" id="entry_box_dictate_button">Dictate</button>
@@ -296,7 +295,7 @@
     		
 		
         <section id="habit_goal_tracker">
-            <div id="habit_goal_tracker_header" class="panel-header" onclick="togglePanel('habit_goal_tracker')">➕ Habit Goal Tracker</div>
+            <div id="habit_goal_tracker_header" class="panel-header" onclick="togglePanel('habit_goal_tracker')">➕ Habit Goal Tracker </div>
             <div class="panel">
 				<span id="habit_question" style="width: 100%; display: block;"></span>
 
@@ -305,7 +304,7 @@
 				</fieldset>
                 <button type="button" id="daily_tracker">Submit</button>
                 
-                <button type="button" id="habit_goal_tracker_reset_button">Reset Defaults</button>
+                <!--<button type="button" id="habit_goal_tracker_reset_button">Reset Defaults</button> -->
             </div>
         </section>
 		
@@ -448,8 +447,8 @@
         <section id="feedback_customer_care">
             <div class="panel-header" onclick="togglePanel('feedback_customer_care')">➕ Feedback Customer Care</div>
             <div class="panel">
-                <p>We are working to enhance your experience and give you better service and summaries for your life. Please let us know any suggestions you have for us or any problems you encounter. (Your suggestions will be visible to you in your notes).</p>
-				<textarea id="feedback_input" style="width: 100%; overflow-y: scroll;" rows="5"></textarea>
+				<span id="entry_box_question" style="width: 100%; display: block;">We are working to enhance your experience and give you better service and summaries for your life. Please let us know any suggestions you have for us or any problems you encounter. (Your suggestions will be visible to you in your notes).</span>
+				<textarea id="feedback_input" style="width: 100%; overflow-y: scroll;" rows="5";  placeholder="Dear Heros' diary team, I have a suggestion for you ..." ></textarea>
                 <button type="button" id="feedback_send_button">Send</button>
             </div>
         </section>
