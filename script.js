@@ -793,3 +793,4 @@ document.addEventListener('DOMContentLoaded', function() {
     // Call the rearrange function with the specified configuration
     rearrange(rearrangeConfig);
 });
+	

@@ -43,7 +43,7 @@
 					
 				<div id="videoModal" class="modal">
 					<div class="modal-content">
-						<!--<span class="close-button">&times;</span>-->	
+						<span class="close-button">&times;</span>
 						<div class="video-container">
 							<video id="videoElement" autoplay></video>
 						</div>
@@ -445,8 +445,9 @@
             </div>
         </section>
         <section id="feedback_customer_care">
-            <div class="panel-header" onclick="togglePanel('feedback_customer_care')">➕ Feedback Customer Care</div>
+            <div class="panel-header" onclick="togglePanel('feedback_customer_care')">➕ Customer Care</div>
             <div class="panel">
+				<button type="button" id="delete_account_button">Delete Account</button>
 				<span id="entry_box_question" style="width: 100%; display: block;">We are working to enhance your experience and give you better service and summaries for your life. Please let us know any suggestions you have for us or any problems you encounter. (Your suggestions will be visible to you in your notes).</span>
 				<textarea id="feedback_input" style="width: 100%; overflow-y: scroll;" rows="5";  placeholder="Dear Heros' diary team, I have a suggestion for you ..." ></textarea>
                 <button type="button" id="feedback_send_button">Send</button>
@@ -455,7 +456,7 @@
         <section id="account">
             <div class="panel-header" onclick="togglePanel('account')">➕ Account</div>
             <div class="panel">
-                <button type="button" id="delete_account_button">Delete Account</button>
+                <!--button type="button" id="delete_account_button">Delete Account</button-->
                 <button type="button" id="request_data_button">Request All My Personal Data</button>
                 <button type="button" id="import_diary_button">
                     Import <span title="This allows you to select files from your diary in a different format and import it into Hero's diary." style="cursor: help;">(i)</span>

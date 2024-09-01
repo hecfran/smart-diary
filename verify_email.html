@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification</title>
+	<script src="domain.js"></script>		
+    <script>
+        async function verifyEmail() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const secret = urlParams.get('secret');
+            const userId = urlParams.get('user_id');
+
+            if (secret && userId) {
+                try {
+                    const response = await fetch(`${DOMAIN}/verify_email?secret=${encodeURIComponent(secret)}&user_id=${encodeURIComponent(userId)}`);
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        document.getElementById('result').innerText = 'Email verification successful!';
+                    } else {
+                        document.getElementById('result').innerText = `Error: ${result.Error}`;
+                    }
+                } catch (error) {
+                    document.getElementById('result').innerText = 'An error occurred during verification.';
+                }
+            } else {
+                document.getElementById('result').innerText = 'Missing secret or user ID.';
+            }
+        }
+
+        window.onload = verifyEmail;
+    </script>
+</head>
+<body>
+    <h1>Email Verification</h1>
+    <p id="result">Verifying...</p>
+</body>
+</html>

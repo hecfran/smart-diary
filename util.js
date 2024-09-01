@@ -684,18 +684,71 @@ function closeCapturePanel() {
     }
 }
 
+function handleForgotPassword() {
+    const email = document.getElementById('login_email').value;
+
+    if (!email) {
+        alert('Please enter your email address.');
+        return;
+    }
+    
+    fetch(`${DOMAIN}/update_password_request`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email: email })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert('Error: ' + data.error);
+        } else if (data.message) {
+            alert('Follow the instructions sent to your email to change the password.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An unexpected error occurred. Please try again.');
+    });
+}
+
+function handleSendEmailToDeleteAccount() {
+
+    fetch(`${DOMAIN}/send_email_to_delete_account`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${sessionToken}`
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert('Error: ' + data.error);
+        } else if (data.message) {
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An unexpected error occurred. Please try again.');
+    });
+}
+
 // Add event listeners to buttons without assigned functions
 document.addEventListener('DOMContentLoaded', () => {
 	//initialize asociated functions
     const buttons = {
+        'forgot_password_button': handleForgotPassword,      
 		'cancelcaptureButton':closeCapturePanel,
 		'entry_box_dictate_button': voice_recording,
+		'delete_account_button': handleSendEmailToDeleteAccount,
+		
 		//initialized non implemented functions
-        'forgot_password_button': showNotImplementedAlert,      
         'habit_goal_tracker_reset_button': showNotImplementedAlert,
         'settings_discard_button': showNotImplementedAlert,
-        'settings_reset_button': showNotImplementedAlert,
-        'delete_account_button': showNotImplementedAlert,
+        'settings_reset_button': showNotImplementedAlert,        
         'request_data_button': showNotImplementedAlert,
         'import_diary_button': showNotImplementedAlert,
         'refresh_view_button': showNotImplementedAlert,

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Account</title>
+    <script src="domain.js"></script>
+    <script>
+        async function deleteAccount() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const secret = urlParams.get('secret');
+            const userId = urlParams.get('user_id');
+
+            if (secret && userId) {
+                const confirmation = confirm("Are you sure you want to delete your account? This action cannot be undone.");
+
+                if (!confirmation) {
+                    document.getElementById('result').innerText = 'Account deletion canceled by user.';
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`${DOMAIN}/delete_account`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ secret: secret, user_id: userId })
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        document.getElementById('result').innerText = 'Account deletion completed successfully!';
+                    } else {
+                        document.getElementById('result').innerText = `Error: ${result.msj}`;
+                    }
+                } catch (error) {
+                    document.getElementById('result').innerText = 'An error occurred during account deletion.';
+                }
+            } else {
+                document.getElementById('result').innerText = 'Missing secret or user ID.';
+            }
+        }
+
+        window.onload = deleteAccount;
+    </script>
+</head>
+<body>
+    <h1>Delete Account</h1>
+    <p id="result">Preparing account deletion...</p>
+</body>
+</html>
