@@ -1,4 +1,3 @@
-
 // Update location immediately
 
 
@@ -62,6 +61,17 @@ function show_messages(jsonObject){
     messageTable.rows[messageTable.rows.length - 1].scrollIntoView({ behavior: "smooth" });
 }
 
+function updateHabitsDone(habits) {
+    const habitsSpan = document.getElementById('habits_done');
+    
+    if (habits.length === 0) {
+        habitsSpan.style.display = 'none'; // Hide the span if the list is empty
+    } else {
+        habitsSpan.innerHTML = "compleated: "+ habits.map(habit => habit.Keywords).join(', '); // Join the strings with a comma
+        habitsSpan.style.display = 'block'; // Show the span if there are elements
+    }
+}
+
 
 
 function rearrange(jsonObject) {
@@ -96,6 +106,9 @@ function rearrange(jsonObject) {
         //document.getElementById('habit_question').value = jsonObject["text_habit"];
 		appendKeywordsToHabitQuestion(jsonObject["text_habit"])
     }
+	if (jsonObject["habit_answer"]){
+		updateHabitsDone(jsonObject["habit_answer"])
+	}
 
 
 	if (jsonObject["attention_elements"]) {
@@ -365,6 +378,17 @@ function updatePanelSettings(settings) {
         return div;
     }
 
+    function create_no_change(key, value) {
+        const label = document.createElement('label');
+        label.htmlFor = key;
+        label.innerText = key + ":"+value
+
+        const div = document.createElement('div');
+        div.appendChild(label);
+        div.appendChild(document.createElement('br'));
+
+        return div;
+    }
     // Create an array of all items with their order and type
     const allItems = [];
     for (const [type, values] of Object.entries(settings)) {
@@ -382,6 +406,7 @@ function updatePanelSettings(settings) {
     const combinedPanel = document.getElementById('settings_combined_table');
     combinedPanel.innerHTML = '';
     const textPanel = document.getElementById('settings_text_subpanel');
+    const noChangePanel = document.getElementById('no_change');
     textPanel.innerHTML = '';
 
     // Add items to their respective panels in order
@@ -410,6 +435,12 @@ function updatePanelSettings(settings) {
                 element = createTextInput(key, value);
                 textPanel.appendChild(element);
                 break;
+			case 'no_change':
+			    element = create_no_change(key, value);
+				noChangePanel.appendChild(element);
+
+				break;
+
         }
 
         // Print value on console if setting is 'save_location'
