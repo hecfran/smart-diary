@@ -32,7 +32,16 @@ function show_messages(jsonObject){
             const message = messageElement.textContent;
             // Use system TTS to read the message
             // Remove HTML marks from the message
-            const cleanMessage = message.replace(/<[^>]*>/g, '');
+            //const cleanMessage = message.replace(/<[^>]*>/g, '');
+			const cleanMessage = message
+				.replace(/<h[1-6]>(.*?)<\/h[1-6]>/g, '$1\n') // Handle headings
+				.replace(/<p>(.*?)<\/p>/g, '$1\n') // Handle paragraphs
+				.replace(/<ul>(.*?)<\/ul>/g, (match, content) => content.replace(/<li>(.*?)<\/li>/g, '• $1\n')) // Handle unordered lists
+				.replace(/<ol>(.*?)<\/ol>/g, (match, content) => content.replace(/<li>(.*?)<\/li>/g, (item, index) => `${index + 1}. ${item.trim()}\n`)) // Handle ordered lists
+				.replace(/<br\s*\/?>/g, '\n') // Handle line breaks
+				.replace(/<[^>]*>/g, '') // Remove remaining HTML tags
+				.replace(/\s+/g, ' ') // Normalize whitespace
+				.trim(); // Trim leading/trailing whitespace
             // Use TTS API to read the message
             // For example, using the Web Speech API:
             const speech = new SpeechSynthesisUtterance(cleanMessage);
