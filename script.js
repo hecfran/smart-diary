@@ -1,59 +1,59 @@
 // Update location immediately
 
 
-function show_messages(jsonObject){
+function show_messages(jsonObject) {
     const messageTable = document.getElementById("message_table");
+    
+    // Clear existing rows in the message table
     while (messageTable.rows.length > 0) {
         messageTable.deleteRow(0);
     }
-		
+    
+    // Iterate over each message in the jsonObject
     jsonObject["show_messages"].forEach((message, index) => {
         const newRow = messageTable.insertRow();
         const newCell = newRow.insertCell(0);
+        
+        // Directly use the message content, replacing newlines with <br>
         const messageText = message.replace(/\n/g, '<br>');
         newCell.innerHTML = `
             <div>
-                <p id="message_text_${index}">${messageText}</p>
+                <p>${messageText}</p>
                 <button id="read_button_${index}">Read</button>
                 <button id="share_button_${index}">Share</button>
             </div>
         `;
         newRow.id = `message_row_${index + 1}`;
 
+        // Apply message type class if available
         if (jsonObject["show_messages_types"] && jsonObject["show_messages_types"][index]) {
             const messageType = jsonObject["show_messages_types"][index];
             newRow.classList.add(`message-type-${messageType.toLowerCase().replace(/ /g, '-')}`);
         }
 
-        // Add event listener for read button
-        const readButton = document.getElementById(`read_button_${index}`);
+        // Add event listener for the read button
+        const readButton = newCell.querySelector(`#read_button_${index}`);
         readButton.addEventListener('click', () => {
-            const messageElement = document.getElementById(`message_text_${index}`);
-            const message = messageElement.textContent;
-            // Use system TTS to read the message
-            // Remove HTML marks from the message
-            //const cleanMessage = message.replace(/<[^>]*>/g, '');
-			const cleanMessage = message
-				.replace(/<h[1-6]>(.*?)<\/h[1-6]>/g, '$1\n') // Handle headings
-				.replace(/<p>(.*?)<\/p>/g, '$1\n') // Handle paragraphs
-				.replace(/<ul>(.*?)<\/ul>/g, (match, content) => content.replace(/<li>(.*?)<\/li>/g, '• $1\n')) // Handle unordered lists
-				.replace(/<ol>(.*?)<\/ol>/g, (match, content) => content.replace(/<li>(.*?)<\/li>/g, (item, index) => `${index + 1}. ${item.trim()}\n`)) // Handle ordered lists
-				.replace(/<br\s*\/?>/g, '\n') // Handle line breaks
-				.replace(/<[^>]*>/g, '') // Remove remaining HTML tags
-				.replace(/\s+/g, ' ') // Normalize whitespace
-				.trim(); // Trim leading/trailing whitespace
+            // Clean the message for TTS
+            const cleanMessage = message
+                .replace(/<h[1-6]>(.*?)<\/h[1-6]>/g, '$1\n') // Handle headings
+                .replace(/<p>(.*?)<\/p>/g, '$1\n') // Handle paragraphs
+                .replace(/<ul>(.*?)<\/ul>/g, (match, content) => content.replace(/<li>(.*?)<\/li>/g, '• $1\n')) // Handle unordered lists
+                .replace(/<ol>(.*?)<\/ol>/g, (match, content) => content.replace(/<li>(.*?)<\/li>/g, (item, index) => `${index + 1}. ${item.trim()}\n`)) // Handle ordered lists
+                .replace(/<br\s*\/?>/g, '\n') // Handle line breaks
+                .replace(/<[^>]*>/g, '') // Remove remaining HTML tags
+                .replace(/\s+/g, ' ') // Normalize whitespace
+                .trim(); // Trim leading/trailing whitespace
+            
             // Use TTS API to read the message
-            // For example, using the Web Speech API:
             const speech = new SpeechSynthesisUtterance(cleanMessage);
             speech.lang = 'en-US';
             window.speechSynthesis.speak(speech);
         });
 
-        // Add event listener for share button
-        const shareButton = document.getElementById(`share_button_${index}`);
+        // Add event listener for the share button
+        const shareButton = newCell.querySelector(`#share_button_${index}`);
         shareButton.addEventListener('click', () => {
-            const messageElement = document.getElementById(`message_text_${index}`);
-            const message = messageElement.textContent;
             // Use Web Share API to share the message
             if (navigator.share) {
                 navigator.share({
@@ -67,8 +67,13 @@ function show_messages(jsonObject){
             }
         });
     });
-    messageTable.rows[messageTable.rows.length - 1].scrollIntoView({ behavior: "smooth" });
+
+    // Scroll to the last message smoothly
+    if (messageTable.rows.length > 0) {
+        messageTable.rows[messageTable.rows.length - 1].scrollIntoView({ behavior: "smooth" });
+    }
 }
+
 
 function updateHabitsDone(habits) {
     const habitsSpan = document.getElementById('habits_done');
