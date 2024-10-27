@@ -1,5 +1,21 @@
 let sessionToken = null; // Variable to store the authentication token
 
+function getFormattedDate() {
+  const options = {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false // Use 24-hour time format
+  };
+
+  // Use 'en-GB' for a consistent day/month/year format
+  return new Date().toLocaleString('en-GB', options);
+}
+
+console.log(getFormattedDate());
 
 
 
@@ -217,7 +233,7 @@ function sendText(part) {
 
     const searchOptionsValues = getSearchOptionsValues();
     //const currentDatetime = new Date().toISOString();
-    const currentDatetime = new Date().toLocaleString(); // Use local time
+    const currentDatetime = getFormattedDate(); //new Date().toLocaleString(); // Use local time
 
 
     const body = {
@@ -281,7 +297,10 @@ function updateTracker() {
 
     const trackerDetails = getTrackerDetails();
     //const currentDatetime = new Date().toISOString();
-    const currentDatetime = new Date().toLocaleString(); // Use local time
+    const currentDatetime = Date().toLocaleString();// new Date().toLocaleString(); // Use local time
+	
+	
+	
 
     const searchOptionsValues = getSearchOptionsValues();
 
@@ -317,7 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	togglePanel('introduction') 
     if (viewByDateInput) {
         //const today = new Date().toISOString().split('T')[0];
-	    const today = new Date().toLocaleString().split('T')[0]; // Use local time
+	    const today = new Date().toLocaleString();//Date().toLocaleString().split('T')[0]; // Use local time
 
         viewByDateInput.value = today;
     }
@@ -328,7 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const date = viewByDateInput.value;
             const trackerDetails = getTrackerDetails();
             const searchOptionsValues = getSearchOptionsValues();
-		    const currentDatetime = new Date().toLocaleString(); // Use local time
+		    const currentDatetime = Date().toLocaleString();//new Date().toLocaleString(); // Use local time
             //const currentDatetime = new Date().toISOString();
 
             try {
@@ -387,7 +406,7 @@ document.getElementById('registrationForm').addEventListener('submit', function(
     }
 
     //const currentDatetime = new Date().toISOString();
-    const currentDatetime = new Date().toLocaleString(); // Use local time
+    const currentDatetime = getFormattedDate();//Date().toLocaleString();//new Date().toLocaleString(); // Use local time
 
 
     const requestBody = {
@@ -459,7 +478,7 @@ function generateReport(templateId, nMonths) {
     }
 
     //const currentDatetime = new Date().toISOString();
-    const currentDatetime = new Date().toLocaleString(); // Use local time
+    const currentDatetime = getFormattedDate();//new Date().toLocaleString(); // Use local time
 
     const searchOptionsValues = getSearchOptionsValues();
 	
