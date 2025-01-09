@@ -1,5 +1,15 @@
 // Update location immediately
 
+function getISO8601LocalTime() {
+    const now = new Date();
+    const offset = -now.getTimezoneOffset();
+    const sign = offset >= 0 ? '+' : '-';
+    const pad = (num) => String(num).padStart(2, '0');
+    const hours = pad(Math.floor(Math.abs(offset) / 60));
+    const minutes = pad(Math.abs(offset) % 60);
+    const localTime = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}${sign}${hours}:${minutes}`;
+    return localTime;
+}
 
 function show_messages(jsonObject) {
     const messageTable = document.getElementById("message_table");
@@ -481,7 +491,7 @@ function handleUnlockDiaryButtonClick() {
     const password = document.getElementById('login_password').value;
     const searchOptionsValues = getSearchOptionsValues();
     //const currentDatetime = new Date().toISOString();
-    const currentDatetime = new Date().toLocaleString(); // Use local time
+    const currentDatetime =  getISO8601LocalTime(); // Use local time
 
 
     const requestBody = {
@@ -523,7 +533,7 @@ function turnOnLocation(){
 
 function startApp() {
     //const currentDatetime = new Date().toISOString();
-    const currentDatetime = new Date().toLocaleString(); // Use local time
+    const currentDatetime =  getISO8601LocalTime(); // Use local time
 
     const location = location_gps;
 
@@ -728,7 +738,7 @@ document.getElementById('new_tracker_form').addEventListener('submit', function(
     const frequency = document.getElementById('tracker_frequency').value;
     const searchOptionsValues = getSearchOptionsValues();
     //const currentDatetime = new Date().toISOString();
-    const currentDatetime = new Date().toLocaleString(); // Use local time
+    const currentDatetime =  getISO8601LocalTime(); // Use local time
 
 
 
