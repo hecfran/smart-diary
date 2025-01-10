@@ -297,7 +297,8 @@ function updateTracker() {
 
     const trackerDetails = getTrackerDetails();
     //const currentDatetime = new Date().toISOString();
-    const currentDatetime = Date().toLocaleString();// new Date().toLocaleString(); // Use local time
+    //const currentDatetime = Date().toLocaleString();// new Date().toLocaleString(); // Use local time
+    const currentDatetime = getFormattedDate();
 	
 	
 	
@@ -347,7 +348,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const date = viewByDateInput.value;
             const trackerDetails = getTrackerDetails();
             const searchOptionsValues = getSearchOptionsValues();
-		    const currentDatetime = Date().toLocaleString();//new Date().toLocaleString(); // Use local time
+		    //const currentDatetime = Date().toLocaleString();//new Date().toLocaleString(); // Use local time
+			const currentDatetime = getFormattedDate();
             //const currentDatetime = new Date().toISOString();
 
             try {
