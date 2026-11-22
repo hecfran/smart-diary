@@ -1,1 +1,0 @@
-const DOMAIN = 'https://api.herosdiary.com';

@@ -1,1 +1,1 @@
-const DOMAIN = 'https://api.herosdiary.com';
+const DOMAIN = 'https://demo.invalid';
