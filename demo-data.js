@@ -1,89 +1,89 @@
 // Sample data for the read-only demo of the 2024 Hero's Diary (old.herosdiary.com).
-// Written for the demo. None of it comes from a real account.
-// demo.js answers the old API calls from this data, in the shapes the 2024 server sent.
+// All characters, entries, trackers, and reports below are 100% fictional [FAKE DEMO] placeholders.
+// Nothing here comes from any real account or real user.
 window.DEMO_DATA = {
     user: {
-        nick: 'Demo hero',
-        email: 'demo hero (not a real account)',
-        dob: '1990-01-01',
+        nick: 'Captain Demo (Fictional Character)',
+        email: 'fake-demo@example.invalid (fictional demo account)',
+        dob: '1899-02-30',
         gender: 'other',
         complexity: 60
     },
 
-    // Diary entries. "time" is local time; "type" is a 2024 message type.
+    // Fictional diary entries. "time" is local time; "type" is a 2024 message type.
     entries: [
         {
             time: '2024-11-25T08:12:40',
             type: 'User text',
-            text: 'Started the week with a run along the river before work. Cold, but the sky was clear and I felt good afterwards.',
-            ai: 'A crisp river run opens the week, breath visible, legs awake.\n- Exercise done before work\n- Mood: energised\nWhat helped you get out of the door this morning?'
+            text: '[FAKE DEMO ENTRY] Polished my cardboard knight helmet at sunrise atop the Floating Lighthouse. Fed two copper acorns to my pocket-sized clockwork dragon before hoisting the cloud-watching kite.',
+            ai: '[FAKE DEMO AI REPLY] Shiny cardboard armor meets the morning breeze while a brass dragon snacks on acorns.\n- Polished cardboard armor\n- Fed the clockwork dragon\nWhich cloud constellation are you charting next?'
         },
         {
             time: '2024-11-26T21:40:05',
             type: 'User text',
-            text: 'Long day. The project deadline moved forward by a week and nobody asked me first. I am frustrated, but I made a plan for the next days.',
-            ai: 'A deadline shifts like sand underfoot, and still a plan is drawn.\n- Frustration about not being consulted\n- A plan made for the coming days\nWhich part of the plan worries you most?'
+            text: '[FAKE DEMO ENTRY] The talking porcelain teapot insisted that Tuesday should be spelled with three Qs. We debated grammar over invisible biscuits until the moon balloon floated past the observatory window.',
+            ai: '[FAKE DEMO AI REPLY] A stubborn teapot guards the alphabet while a moon balloon drifts by.\n- Friendly debate with a talking teapot\n- Quiet evening in the observatory\nWhat will tomorrow\'s tea-time riddle be?'
         },
         {
             time: '2024-11-28T19:05:51',
             type: 'User text',
-            text: 'Grateful for my sister, who called just to ask how I was. We talked for an hour about nothing in particular.',
-            ai: 'An hour of easy talk, a small gift from a sister.\n- Grateful for family\n- Felt cared for\nWhen did you last call her just to ask how she was?'
+            text: '[FAKE DEMO ENTRY] Grateful for my folding paper compass that always points toward the nearest bakery on Cloud Island instead of magnetic north. Mapped three imaginary archipelago shoals before supper.',
+            ai: '[FAKE DEMO AI REPLY] A pastry-seeking compass leads every chart on Cloud Island.\n- Grateful for a whimsical paper compass\n- Mapped three fictional islands\nWhich imaginary island deserves a lighthouse next?'
         },
         {
             time: '2024-11-30T10:30:00',
             type: 'user habit tracker',
-            text: 'habit tracker update:\nDid you exercise today? : done',
+            text: '[FAKE DEMO TRACKER] habit tracker update:\n[DEMO] Did you feed the imaginary dragon today? : done',
             ai: ''
         },
         {
             time: '2024-12-01T09:00:00',
             type: 'AI summary week',
-            text: 'Week summary, 25 November to 1 December 2024.\nOur hero opened the week on the river path, running through the cold. A moved deadline tested their patience, yet they answered it with a plan rather than complaint. The week closed in warmth: a long call with a sister, and two more runs ticked off the tracker. Achievements: 3 of 3 exercise goals, a project plan under pressure, and time given to family.',
+            text: '[FAKE DEMO WEEKLY SUMMARY] Week summary, 25 November to 1 December 2024.\nOur fictional Captain Demo polished cardboard armor, settled a spelling dispute with a talking teapot, and followed a pastry compass across Cloud Island. All imaginary dragon feedings were marked complete in this placeholder week.',
             ai: ''
         },
         {
             time: '2024-12-03T22:15:12',
             type: 'User text',
-            text: 'Proud of myself today. I presented the plan to the team and they agreed to most of it. I was nervous but it went well.',
-            ai: 'Nerves before, agreement after: a quiet victory.\n- Presented the plan to the team\n- Most of it accepted\nWhat would you do differently next time you present?'
+            text: '[FAKE DEMO ENTRY] Presented my blueprints for a pedal-powered dirigible made of umbrella ribs to the Council of Clockmakers. Every mechanical owl nodded twice in approval.',
+            ai: '[FAKE DEMO AI REPLY] Umbrella wings and approving brass owls mark a triumphant workshop evening.\n- Presented fictional dirigible blueprints\n- Celebrated with the Council of Clockmakers\nWhere will the maiden test flight glide first?'
         },
         {
             time: '2024-12-05T18:47:33',
             type: 'conversation',
-            text: 'Question: How many times did I exercise in November?\nBook: Your diary mentions exercise on 25 November and the tracker marks it done on 30 November, so at least twice in the last week of November.',
+            text: '[FAKE DEMO CONVERSATION] Question: How many times did Captain Demo polish armor or feed the clockwork dragon?\nBook: Placeholder log shows dragon feeding on 25 and 30 November and cardboard shield polishing throughout the week.',
             ai: ''
         },
         {
             time: '2024-12-08T20:02:19',
             type: 'User text',
-            text: 'Quiet Sunday. Cooked soup, read two chapters, went to bed early. Sometimes doing little is exactly right.',
-            ai: 'A slow Sunday of soup and pages, rest chosen on purpose.\n- Rest and reading\n- Content with a quiet day\nWhat are you reading at the moment?'
+            text: '[FAKE DEMO ENTRY] Quiet Sunday in the lighthouse library. Read twenty pages from the Encyclopedia of Impossible Knots, brewed stardust cocoa, and tucked the clockwork dragon into a velvet sock.',
+            ai: '[FAKE DEMO AI REPLY] Stardust cocoa, impossible knots, and a sleeping miniature dragon close a restful placeholder Sunday.\n- Read the Encyclopedia of Impossible Knots\n- Rested in the fictional lighthouse\nWhich knot from chapter four looked most mysterious?'
         },
         {
             time: '2024-12-31T12:00:00',
             type: 'AI summary month',
-            text: 'Month summary, December 2024.\nDecember asked our hero to lead, and they did: a plan presented, a team persuaded, nerves overcome. Between the busy days they kept their runs, cooked, read and rested without guilt. Family stayed close. The month ends with a hero who has learned that a moved deadline is a problem to solve, not a verdict.',
+            text: '[FAKE DEMO MONTHLY SUMMARY] Month summary, December 2024.\nIn this completely fictional December showcase, Captain Demo balanced workshop inventions with talking teapots, cloud cartography, and dragon care—demonstrating how Hero\'s Diary (2024) displayed monthly AI summaries.',
             ai: ''
         }
     ],
 
-    // Trackers, as the 2024 server listed them (DEFAULT_TRACKER_LIST). "today" is 0 until done today.
+    // Fictional trackers in the exact 2024 shape (DEFAULT_TRACKER_LIST). "today" is 0 until done today.
     trackers: [
-        { id: '1', Type: 'bool', Keywords: 'exercise', ListPosition: 1, LongDescription: 'Did you exercise today?', GoalNumber: 3, GoalFrequency: 'week', today: 0 },
-        { id: '2', Type: 'text', Keywords: 'grateful', ListPosition: 2, LongDescription: 'What are you grateful about today?', GoalNumber: 4, GoalFrequency: 'week', today: 0 },
-        { id: '3', Type: 'text', Keywords: 'frustrated', ListPosition: 3, LongDescription: 'What are you frustrated or irritated about recently?', GoalNumber: 4, GoalFrequency: 'month', today: 0 },
-        { id: '4', Type: 'text', Keywords: 'proud', ListPosition: 4, LongDescription: 'What are you proud about recently?', GoalNumber: 4, GoalFrequency: 'month', today: 0 },
-        { id: '5', Type: 'bool', Keywords: 'read', ListPosition: 5, LongDescription: 'Did you read for 20 minutes today?', GoalNumber: 4, GoalFrequency: 'week', today: 0 }
+        { id: '1', Type: 'bool', Keywords: 'dragon', ListPosition: 1, LongDescription: '[DEMO] Did you feed the imaginary dragon today?', GoalNumber: 3, GoalFrequency: 'week', today: 0 },
+        { id: '2', Type: 'text', Keywords: 'quest', ListPosition: 2, LongDescription: '[DEMO] What fictional quest are you grateful for?', GoalNumber: 4, GoalFrequency: 'week', today: 0 },
+        { id: '3', Type: 'text', Keywords: 'wizardry', ListPosition: 3, LongDescription: '[DEMO] What wizardry frustrated you today?', GoalNumber: 4, GoalFrequency: 'month', today: 0 },
+        { id: '4', Type: 'bool', Keywords: 'shield', ListPosition: 4, LongDescription: '[DEMO] Did you polish your cardboard shield?', GoalNumber: 4, GoalFrequency: 'month', today: 0 },
+        { id: '5', Type: 'bool', Keywords: 'spellbook', ListPosition: 5, LongDescription: '[DEMO] Did you read 20 pages of the Spellbook?', GoalNumber: 4, GoalFrequency: 'week', today: 0 }
     ],
 
     // Prompts shown above the entry box (from GENERIC_PROPTS in the 2024 server).
     prompts: [
-        'How was your day?',
-        'What are you grateful for today?',
-        'What was the highlight of your day?',
-        'What challenges did you face today?',
-        'What is something you are proud of today?'
+        '[DEMO PROMPT] What fictional adventure happened in your story today?',
+        '[DEMO PROMPT] Which imaginary friend or clockwork pet helped you today?',
+        '[DEMO PROMPT] What was the highlight of today\'s storybook quest?',
+        '[DEMO PROMPT] What whimsical puzzle did you try to solve today?',
+        '[DEMO PROMPT] What sample detail would you like to test in this 2024 UI demo?'
     ],
 
     // Settings, in the 2024 shape (DEFAULT_SETTINGS_VAL). Saving changes them for this visit only.
@@ -124,12 +124,12 @@ window.DEMO_DATA = {
     },
 
     // The reply the demo gives to a new entry, in place of the 2024 AI call.
-    demoReply: '(Demo) In 2024 an AI wrote a short reply here: a brief, slightly poetic summary of your entry and a follow-up question. The demo has no AI and keeps your entry only until you leave the page.',
+    demoReply: '[FAKE DEMO AI REPLY] In 2024 an AI wrote a short placeholder reply here. This interactive preview has no AI and discards everything when you leave the page.',
 
-    // Custom reports (report_template 1, 2, 3).
+    // Fictional custom reports (report_template 1, 2, 3).
     reports: {
-        1: 'Mental health report (demo).\nExecutive summary: over the last weeks I felt mostly calm and energised, with one stressful spell when a deadline moved (26 November). I answered it with a plan and felt proud once the team agreed (3 December). Rest and family calls helped.\n- 26 Nov 2024: frustrated, made a plan\n- 28 Nov 2024: grateful, felt cared for\n- 3 Dec 2024: nervous, then proud\n- 8 Dec 2024: content, rested',
-        2: 'Physical health report (demo).\nExecutive summary: I ran regularly and met my exercise goal in the last week of November. No symptoms were mentioned. Sleep was good on quiet days.\n- 25 Nov 2024: morning run by the river\n- 30 Nov 2024: exercise ticked in the tracker\n- 8 Dec 2024: early night',
-        3: 'Relationships health report (demo).\nExecutive summary: family contact was warm and easy; work relationships were tested by the moved deadline and improved after the presentation.\n- 26 Nov 2024: not consulted about the deadline\n- 28 Nov 2024: an hour on the phone with my sister\n- 3 Dec 2024: the team agreed to my plan'
+        1: '[FAKE DEMO REPORT] Whisker & Wonder Mindset Report.\nExecutive summary: completely fictional mood log for Captain Demo — amused by talking teapots (26 Nov), delighted by Cloud Island maps (28 Nov), and tranquil over stardust cocoa (8 Dec).\n- 26 Nov 2024: playful debate with a porcelain teapot\n- 28 Nov 2024: mapped imaginary islands\n- 3 Dec 2024: Council of Clockmakers approved dirigible plans\n- 8 Dec 2024: read Encyclopedia of Impossible Knots',
+        2: '[FAKE DEMO REPORT] Cardboard Armor & Dragon Care Report.\nExecutive summary: fictional activity log showing clockwork dragon feedings completed twice and cardboard armor polished atop the Floating Lighthouse.\n- 25 Nov 2024: fed copper acorns to miniature dragon\n- 30 Nov 2024: dragon care ticked in demo tracker\n- 8 Dec 2024: cozy lighthouse rest',
+        3: '[FAKE DEMO REPORT] Storybook Fellowship Report.\nExecutive summary: fictional interactions with the talking teapot, Council of Clockmakers mechanical owls, and the miniature clockwork dragon.\n- 26 Nov 2024: tea-time spelling debate\n- 28 Nov 2024: guided by pastry-seeking paper compass\n- 3 Dec 2024: presented umbrella-wing dirigible'
     }
 };
