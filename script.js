@@ -103,20 +103,18 @@ function rearrange(jsonObject) {
         for (const panelId in jsonObject["panels"]) {
             const panelState = jsonObject["panels"][panelId];
             const panelSection = document.getElementById(panelId);
+            if (!panelSection) continue;
 
-            if (panelState === 0) {
-                panelSection.style.display = 'none';
-            } else {
-                panelSection.style.display = 'block';
-                const panel = panelSection.querySelector('.panel');
-                const header = panelSection.querySelector('.panel-header');
-                const isVisible = panel.style.display === 'block';
+            // Keep every panel section visible so all parts of the 2024 UI
+            // can be inspected in the public showcase demo.
+            panelSection.style.display = 'block';
+            const panel = panelSection.querySelector('.panel');
+            const isVisible = panel && panel.style.display === 'block';
 
-                if (panelState === 1) {
-                    if (isVisible) togglePanel(panelId);
-                } else if (panelState === 2) {
-                    if (!isVisible) togglePanel(panelId);
-                }
+            if (panelState === 2) {
+                if (!isVisible) togglePanel(panelId);
+            } else if (panelState === 1 || panelState === 0) {
+                if (isVisible) togglePanel(panelId);
             }
         }
     }
@@ -815,27 +813,25 @@ function attentionElementsByIds(ids) {
 document.addEventListener('DOMContentLoaded', function() {
     const rearrangeConfig = {
         'panels': {
-            'video': 0,
-            'message_viewer': 0,
-            'search_options': 0,
+            'video': 1,
+            'message_viewer': 2,
+            'search_options': 1,
             'entry_box': 2,
-            'habit_goal_tracker': 0,
-            'settings': 0,
-            'membership': 0,
-            'about': 0,
-            'feedback_customer_care': 0,
-            'account': 0,
-            'edit_habit_goal_tracker': 0,
-            'customReports': 0,
+            'habit_goal_tracker': 2,
+            'settings': 1,
+            'membership': 1,
+            'about': 1,
+            'feedback_customer_care': 1,
+            'account': 1,
+            'edit_habit_goal_tracker': 1,
+            'customReports': 1,
             'log_in': 2,
             'register': 1,
             'introduction': 2,
-		    'voice-recording': 0
+		    'voice-recording': 1
 		
         },
         'hide_elements': [
-            'entry_box_question',
-            'entry_box_send_button',
             'logout_button'
         ],
         'attention_elements': [

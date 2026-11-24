@@ -96,27 +96,29 @@
         return r;
     }
 
-    // rearrange_go_login() of the 2024 server.
+    // rearrange_go_login() adapted so the demo shows every 2024 panel instead of hiding them.
     function goLogin() {
         return {
             panels: {
-                'video': 0, 'message_viewer': 0, 'search_options': 0, 'entry_box': 2,
-                'habit_goal_tracker': 0, 'settings': 0, 'membership': 0, 'about': 0,
-                'feedback_customer_care': 0, 'account': 0, 'edit_habit_goal_tracker': 0,
-                'customReports': 0, 'log_in': 2, 'register': 1, 'introduction': 2
+                'video': 1, 'message_viewer': 2, 'search_options': 1, 'entry_box': 2,
+                'habit_goal_tracker': 2, 'settings': 1, 'membership': 1, 'about': 1,
+                'feedback_customer_care': 1, 'account': 1, 'edit_habit_goal_tracker': 1,
+                'customReports': 1, 'log_in': 2, 'register': 1, 'introduction': 2,
+                'voice-recording': 1
             },
-            hide_elements: ['entry_box_question', 'entry_box_send_button', 'logout_button'],
+            hide_elements: ['logout_button'],
+            show_elements: ['entry_box_question', 'entry_box_send_button'],
             attention_elements: ['introduction', 'login_email_row', 'entry_box_textarea']
         };
     }
 
-    // look_message() of the 2024 server.
+    // look_message() adapted so all panels stay visible.
     function lookMessage(r) {
         r.panels = Object.assign(r.panels || {}, {
-            'log_in': 0, 'register': 0, 'message_viewer': 2, 'search_options': 0, 'entry_box': 2,
-            'habit_goal_tracker': 2, 'edit_habit_goal_tracker': 1, 'settings': 1, 'membership': 0,
-            'about': 1, 'feedback_customer_care': 1, 'customReports': (user.complexity || 0) > 20 ? 1 : 0,
-            'account': 0, 'introduction': 0
+            'log_in': 1, 'register': 1, 'message_viewer': 2, 'search_options': 1, 'entry_box': 2,
+            'habit_goal_tracker': 2, 'edit_habit_goal_tracker': 1, 'settings': 1, 'membership': 1,
+            'about': 1, 'feedback_customer_care': 1, 'customReports': 1,
+            'account': 1, 'introduction': 1, 'video': 1, 'voice-recording': 1
         });
         addTo(r, 'hide_elements', ['footerSection', 'header', 'settings_discard_button', 'settings_reset_button']);
         addTo(r, 'show_elements', ['entry_box_send_button', 'logout_button', 'entry_box_question']);
@@ -132,10 +134,6 @@
         r.text_habit = texts;
         r.habit_answer = trackers.filter(function (t) { return t.today; });
         addTo(r, checks.length ? 'show_elements' : 'hide_elements', ['Tracker_list', 'daily_tracker']);
-        if (!checks.length && !texts.length) {
-            r.panels = r.panels || {};
-            r.panels.habit_goal_tracker = 0;
-        }
         return r;
     }
 
@@ -196,7 +194,13 @@
                 return [200, { status: 'demo' }];
 
             case '/start':
-                return [200, { rearrange: goLogin() }];
+                r = goLogin();
+                recentMessages(r, {});
+                refreshHabits(r);
+                refreshPrompts(r);
+                trackerList(r);
+                r.settings = settingsView();
+                return [200, { rearrange: r }];
 
             case '/login':
                 // Any login succeeds as the demo hero.
